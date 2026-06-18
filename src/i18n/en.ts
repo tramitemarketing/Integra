@@ -53,6 +53,7 @@ export const en: Dictionary = {
     careersTitle: 'Work with us',
     careersBody: 'We look for curious, rigorous people. If you like building software that truly matters, tell us about yourself. [TO WRITE]',
     successNote: 'Thank you! We will get back to you soon.',
+    errorNote: 'Something went wrong. Please try again or email us.',
   },
   products: [
     { slug: 'product-1', name: '[NOME_PRODOTTO_1]', tagline: '[TO WRITE: tagline]', what: '[NOME_PRODOTTO_1] is [TO WRITE: what it is, self-contained sentence].', audience: '[TO WRITE: who it is for]', useCases: ['[Use case 1]', '[Use case 2]', '[Use case 3]'] },

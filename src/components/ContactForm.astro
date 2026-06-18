@@ -42,6 +42,8 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     </span>
   </button>
+
+  <p class="cform__status" role="status" aria-live="polite" data-success={t.successNote} data-error={t.errorNote} hidden></p>
 </form>
 
 <style>
@@ -54,6 +56,10 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
   .cform input, .cform textarea { padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; min-height: 44px; }
   .cform input:focus, .cform textarea:focus { border-color: var(--brand); }
   .cform__err { color: #b00020; font-size: var(--fs-300); }
+  .cform__status { font-size: var(--fs-400); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); }
+  .cform__status.is-ok { color: #0a7a3d; background: #e8f6ee; border: 1px solid #bfe6cf; }
+  .cform__status.is-err { color: #b00020; background: #fdeaee; border: 1px solid #f4c4cf; }
+  .btn:disabled { opacity: 0.65; cursor: default; }
   .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.25rem; border-radius: var(--radius); font-weight: 600; border: none; cursor: pointer; transition: background var(--transition), transform var(--transition), box-shadow var(--transition); }
   .btn--primary { background: var(--brand); color: #fff; }
   /* Hover = lighter + lift/glow, never darker. */
@@ -105,5 +111,37 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
       err.hidden = false;
     });
     email.addEventListener('input', () => { if (email.validity.valid) err.hidden = true; });
+
+    // AJAX submit → inline confirmation, no page redirect (Formspree JSON mode).
+    const status = form.querySelector('.cform__status') as HTMLElement;
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');
+      status.hidden = true;
+      status.className = 'cform__status';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error('Request failed');
+        status.textContent = status.dataset.success ?? '';
+        status.classList.add('is-ok');
+        status.hidden = false;
+        form.reset();
+        sync();
+      } catch {
+        status.textContent = status.dataset.error ?? '';
+        status.classList.add('is-err');
+        status.hidden = false;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute('aria-busy');
+      }
+    });
   }
 </script>

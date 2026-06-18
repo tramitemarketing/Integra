@@ -53,6 +53,7 @@ export const it: Dictionary = {
     careersTitle: 'Lavora con noi',
     careersBody: 'Cerchiamo persone curiose e rigorose. Se ti piace costruire software che serve davvero, raccontaci di te. [DA SCRIVERE]',
     successNote: 'Grazie! Ti ricontatteremo a breve.',
+    errorNote: 'Qualcosa è andato storto. Riprova o scrivici via email.',
   },
   products: [
     { slug: 'prodotto-1', name: '[NOME_PRODOTTO_1]', tagline: '[DA SCRIVERE: tagline]', what: "[NOME_PRODOTTO_1] è [DA SCRIVERE: cos’è in una frase autoconclusiva].", audience: '[DA SCRIVERE: a chi serve]', useCases: ["[Caso d’uso 1]", "[Caso d’uso 2]", "[Caso d’uso 3]"] },

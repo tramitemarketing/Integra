@@ -46,6 +46,7 @@ export interface Dictionary {
     nameLabel: string; emailLabel: string; messageLabel: string; cvLabel: string;
     careersTitle: string; careersBody: string;
     successNote: string;
+    errorNote: string;
   };
   products: ProductEntry[];
   cases: CaseEntry[];
