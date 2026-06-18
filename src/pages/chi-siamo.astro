@@ -3,32 +3,51 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 import Reveal from '../components/Reveal.astro';
 import GridAccent from '../components/GridAccent.astro';
+import SectionCode from '../components/SectionCode.astro';
+import Terminal from '../components/Terminal.astro';
 import { useTranslations } from '../i18n/utils';
 const lang = 'it' as const;
 const t = useTranslations(lang);
+
+// Demo content for the AI section — editable. Believable AI-assisted B2G workflow.
+const aiSteps = [
+  { cmd: 'analizza ./pratiche-edilizie --deep', out: ['✔ 1.248 file analizzati', '✔ 3 colli di bottiglia individuati'] },
+  { cmd: 'genera test modulo-protocollo', out: ['✔ 87 test generati · copertura 94%'] },
+  { cmd: 'audit --sicurezza', out: ['✔ Nessuna vulnerabilità critica'] },
+  { cmd: 'deploy --comune demo', out: ['✔ Rilascio completato in 12s'] },
+];
 ---
 <BaseLayout title={t.meta.about.title} description={t.meta.about.description} pageKey="about">
   <section class="hero-band">
     <GridAccent />
     <div class="container hero-band__content">
+      <SectionCode code="B1" />
       <h1>{t.nav.about}</h1>
       <p class="lead">{t.about.lead}</p>
     </div>
   </section>
 
   <Section>
+    <SectionCode code="B2" />
     <Reveal as="h2">{t.about.historyTitle}</Reveal>
     <p>{t.about.historyBody}</p>
   </Section>
 
   <Section alt>
+    <SectionCode code="B3" />
     <Reveal as="h2">{t.about.techTitle}</Reveal>
     <ul class="tags">{t.about.tech.map((x) => <li>{x}</li>)}</ul>
   </Section>
 
   <Section>
-    <Reveal as="h2">{t.about.aiTitle}</Reveal>
-    <p>{t.about.aiBody}</p>
+    <SectionCode code="B4" />
+    <div class="ai-grid">
+      <div>
+        <Reveal as="h2">{t.about.aiTitle}</Reveal>
+        <p>{t.about.aiBody}</p>
+      </div>
+      <Terminal steps={aiSteps} label="Esempio di workflow di sviluppo assistito dall'AI" />
+    </div>
   </Section>
 </BaseLayout>
 
@@ -38,4 +57,9 @@ const t = useTranslations(lang);
   .lead { font-size: var(--fs-500); color: var(--text-muted); margin-top: var(--space-4); }
   .tags { display: flex; flex-wrap: wrap; gap: var(--space-3); list-style: none; padding: 0; margin-top: var(--space-6); }
   .tags li { border: 1px solid var(--border); border-radius: 999px; padding: .4rem 1rem; font-size: var(--fs-300); }
+  .ai-grid { display: grid; gap: var(--space-8); align-items: center; }
+  @media (min-width: 880px) {
+    .ai-grid { grid-template-columns: 1.25fr 0.75fr; gap: var(--space-12); }
+    .ai-grid :global(.term) { margin-top: 0; justify-self: end; }
+  }
 </style>

@@ -1,0 +1,127 @@
+---
+// src/components/Terminal.astro
+// A sober, on-brand animated terminal: types commands then reveals outputs.
+// No-JS / reduced-motion: shows the full transcript statically.
+interface Step { cmd: string; out?: string[] }
+interface Props { steps: Step[]; title?: string; label: string }
+const { steps, title = 'workflow', label } = Astro.props;
+---
+<div class="term" data-term role="img" aria-label={label}>
+  <div class="term__bar" aria-hidden="true">
+    <span class="term__dots"><i></i><i></i><i></i></span>
+    <span class="term__title">{title}</span>
+  </div>
+  <div class="term__body" aria-hidden="true">
+    {steps.map((s) => (
+      <>
+        <span class="term__line term__cmd"><span class="term__prompt">$</span> <span class="term__typed">{s.cmd}</span></span>
+        {s.out?.map((o) => {
+          const hasCheck = o.startsWith('✔');
+          const text = hasCheck ? o.replace(/^✔\s*/, '') : o;
+          return (
+            <span class="term__line term__out">{hasCheck && <span class="term__check">✔</span>}{hasCheck ? ' ' : ''}{text}</span>
+          );
+        })}
+      </>
+    ))}
+  </div>
+</div>
+
+<style>
+  .term {
+    max-width: 38rem;
+    margin-top: var(--space-8);
+    background: #F7F8FA;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(21, 22, 28, 0.06);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .term__bar {
+    display: flex; align-items: center; gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  .term__dots { display: inline-flex; gap: 6px; }
+  .term__dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+  .term__title { color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.04em; }
+  .term__body {
+    display: flex; flex-direction: column; gap: 4px;
+    padding: var(--space-4) var(--space-4) var(--space-6);
+    font-size: 0.85rem; line-height: 1.7;
+  }
+  .term__line { white-space: pre-wrap; word-break: break-word; }
+  .term__cmd { color: var(--text); }
+  .term__prompt { color: var(--brand); margin-right: 0.5ch; }
+  .term__out { color: var(--text-muted); transition: opacity 220ms ease; }
+  .term__check { color: var(--brand); }
+  .term__typed.is-typing::after {
+    content: '▋'; color: var(--brand); margin-left: 1px;
+    animation: termcaret 1.05s steps(1) infinite;
+  }
+  @keyframes termcaret { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+</style>
+
+<script>
+  type Step = { line: HTMLElement; isCmd: boolean; typed: HTMLElement | null; text: string };
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduce && 'IntersectionObserver' in window) {
+    const typeText = (el: HTMLElement, text: string, speed: number, done: () => void) => {
+      let n = 0;
+      const tick = () => {
+        el.textContent = text.slice(0, ++n);
+        if (n < text.length) setTimeout(tick, speed);
+        else done();
+      };
+      tick();
+    };
+
+    const runSteps = (steps: Step[], i: number) => {
+      if (i >= steps.length) return;
+      const s = steps[i];
+      s.line.style.visibility = 'visible';
+      if (s.isCmd && s.typed) {
+        s.typed.classList.add('is-typing');
+        typeText(s.typed, s.text, 38, () => {
+          s.typed!.classList.remove('is-typing');
+          setTimeout(() => runSteps(steps, i + 1), 480);
+        });
+      } else {
+        s.line.style.opacity = '1';
+        setTimeout(() => runSteps(steps, i + 1), 240);
+      }
+    };
+
+    document.querySelectorAll<HTMLElement>('.term').forEach((term) => {
+      const steps: Step[] = Array.from(term.querySelectorAll<HTMLElement>('.term__line')).map((line) => {
+        const isCmd = line.classList.contains('term__cmd');
+        let typed: HTMLElement | null = null;
+        let text = '';
+        if (isCmd) {
+          typed = line.querySelector<HTMLElement>('.term__typed');
+          text = typed?.textContent ?? '';
+          if (typed) typed.textContent = '';
+        } else {
+          line.style.opacity = '0';
+        }
+        line.style.visibility = 'hidden';
+        return { line, isCmd, typed, text };
+      });
+
+      let started = false;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !started) {
+            started = true;
+            io.unobserve(term);
+            runSteps(steps, 0);
+          }
+        });
+      }, { threshold: 0.35 });
+      io.observe(term);
+    });
+  }
+</script>
