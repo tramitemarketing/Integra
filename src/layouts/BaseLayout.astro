@@ -1,0 +1,35 @@
+---
+// src/layouts/BaseLayout.astro
+import '../styles/global.css';
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl } from '../i18n/utils';
+import type { PageKey } from '../i18n/routes';
+
+interface Props {
+  title: string;
+  description: string;
+  pageKey?: PageKey;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+const { title, description, pageKey, jsonLd } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Seo lang={lang} title={title} description={description} pageKey={pageKey} jsonLd={jsonLd} />
+  </head>
+  <body>
+    <a href="#main" class="visually-hidden">Salta al contenuto</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
