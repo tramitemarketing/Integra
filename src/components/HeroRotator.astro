@@ -2,10 +2,10 @@
 // src/components/HeroRotator.astro
 // Stacked title: the black `pre`/`post` lines stay fixed; only the blue word,
 // on its own fixed-height line, animates. No reflow of the surrounding text.
-interface Props { pre: string; words: string[]; post: string; }
-const { pre, words, post } = Astro.props;
+interface Props { pre: string; words: string[]; post: string; align?: 'start' | 'center'; }
+const { pre, words, post, align = 'start' } = Astro.props;
 ---
-<h1 class="hero-title">
+<h1 class:list={["hero-title", align === 'center' && "hero-title--center"]}>
   <span class="hero-line">{pre}</span>
   <span class="hero-rotator" data-words={JSON.stringify(words)}>
     <span class="hero-rotator__word">{words[0]}</span>
@@ -19,6 +19,7 @@ const { pre, words, post } = Astro.props;
     flex-direction: column;
     align-items: flex-start;
   }
+  .hero-title--center { align-items: center; text-align: center; }
   .hero-line { display: block; }
 
   /* One-shot staggered entrance on load. */
