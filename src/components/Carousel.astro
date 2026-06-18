@@ -1,0 +1,60 @@
+---
+// src/components/Carousel.astro
+import type { CaseEntry } from '../i18n/types';
+interface Props { items: CaseEntry[]; label: string; }
+const { items, label } = Astro.props;
+---
+<div class="carousel" role="region" aria-label={label}>
+  <ul class="carousel__track">
+    {items.map((it) => (
+      <li class="carousel__item">
+        <article class="card">
+          <img src={it.image} alt={it.title} width="360" height="240" loading="lazy" />
+          <div class="card__scrim"></div>
+          <div class="card__body">
+            <h3 class="card__title">{it.title}</h3>
+            <p class="card__desc">{it.description}</p>
+          </div>
+        </article>
+      </li>
+    ))}
+  </ul>
+  <div class="carousel__nav">
+    <button class="carousel__btn" data-dir="prev" aria-label="Precedente">←</button>
+    <button class="carousel__btn" data-dir="next" aria-label="Successivo">→</button>
+  </div>
+</div>
+
+<style>
+  .carousel { position: relative; }
+  .carousel__track {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; gap: var(--space-4);
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .carousel__track::-webkit-scrollbar { display: none; }
+  .carousel__item { flex: 0 0 clamp(260px, 80vw, 340px); scroll-snap-align: start; }
+  .card { position: relative; border-radius: var(--radius); overflow: hidden; min-height: 240px; }
+  .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  /* functional scrim — legibility of text over image (not decoration) */
+  .card__scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(21,22,28,.78), rgba(21,22,28,0) 60%); }
+  .card__body { position: absolute; inset-inline: 0; bottom: 0; padding: var(--space-4); color: #fff; }
+  .card__title { color: #fff; font-size: var(--fs-600); }
+  .card__desc { font-size: var(--fs-300); opacity: .9; }
+  .carousel__nav { display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4); }
+  .carousel__btn { min-width: 44px; min-height: 44px; border: 1px solid var(--border); background: var(--bg); border-radius: var(--radius-sm); cursor: pointer; }
+  .carousel__btn:hover { border-color: var(--brand); color: var(--brand); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.carousel').forEach((c) => {
+    const track = c.querySelector('.carousel__track') as HTMLElement;
+    c.querySelectorAll<HTMLButtonElement>('.carousel__btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const amount = track.clientWidth * 0.8;
+        track.scrollBy({ left: btn.dataset.dir === 'next' ? amount : -amount, behavior: 'smooth' });
+      });
+    });
+  });
+</script>
