@@ -19,7 +19,11 @@ const { pre, words, post, align = 'start' } = Astro.props;
     flex-direction: column;
     align-items: flex-start;
   }
-  .hero-title--center { align-items: center; text-align: center; }
+  .hero-title--center {
+    align-items: center;
+    text-align: center;
+    font-size: clamp(2.75rem, 1.3rem + 6vw, 5rem);
+  }
   .hero-line { display: block; }
 
   /* One-shot staggered entrance on load. */
