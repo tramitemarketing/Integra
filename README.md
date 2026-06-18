@@ -1,43 +1,30 @@
-# Astro Starter Kit: Minimal
+# Integra — sito vetrina
 
-```sh
-npm create astro@latest -- --template minimal
+Sito statico bilingue (IT/EN) in Astro. Deploy su Aruba (build statico via FTP).
+
+## Avvio locale
+```bash
+npm install
+cp .env.example .env   # poi inserisci l'endpoint Formspree reale
+npm run dev            # http://localhost:4321
+npm run build          # genera dist/ (da caricare su Aruba)
+npm test               # test unitari i18n
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Design tokens (unica fonte di verità)
+`src/styles/tokens.css` — colori, tipografia, spazi. Cambiare il blu = una riga (`--brand`).
 
-## 🚀 Project Structure
+## Contenuti / i18n
+Copy nei dizionari `src/i18n/it.ts` e `src/i18n/en.ts`. Rotte localizzate in `src/i18n/routes.ts`.
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Checklist placeholder da sostituire
+- [ ] Blu esatto dall'SVG del logo → `--brand`, `--brand-dark`, `--brand-tint` in `tokens.css`
+- [ ] Logo SVG → sostituire il testo `INTEGRA` in `Header.astro` / `Footer.astro`
+- [ ] Nomi prodotti `[NOME_PRODOTTO_1/2]` e slug in `it.ts`/`en.ts`
+- [ ] Tutti i testi `[DA SCRIVERE]` / `[TO WRITE]` (IT + EN)
+- [ ] Endpoint Formspree → `.env` (`PUBLIC_FORMSPREE_ENDPOINT`)
+- [ ] Dominio Aruba → `SITE` in `astro.config.mjs` e URL in `public/robots.txt`
+- [ ] Foto + dati team in `it.ts`/`en.ts`
+- [ ] Profili social → `sameAs` in `Seo.astro`
+- [ ] Anno di fondazione esatto → `foundingDate` in `Seo.astro`
+- [ ] OG image: export `public/og-image.svg` to PNG (social crawlers don't render SVG) and update the path in `src/components/Seo.astro`
