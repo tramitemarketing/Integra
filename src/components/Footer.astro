@@ -12,8 +12,16 @@ const year = new Date().getFullYear();
       <p class="site-footer__brand">INTEGRA</p>
       <p class="muted">{t.footer.address}</p>
       <p><a class="link" href={`mailto:${t.footer.email}`}>{t.footer.email}</a></p>
+      <p class="site-footer__social">
+        <a class="li-btn" href="https://it.linkedin.com/company/integra-srl-soluzioni-informatiche-integrate"
+           target="_blank" rel="me noopener" aria-label="LinkedIn — Integra">
+          <span class="li-btn__label">{t.footer.follow}</span>
+          <svg class="li-btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+        </a>
+      </p>
     </div>
     <nav class="site-footer__nav" aria-label="Footer">
+      <a href={routeMap.home[lang]}>{t.nav.home}</a>
       <a href={routeMap.about[lang]}>{t.nav.about}</a>
       <a href={routeMap.team[lang]}>{t.nav.team}</a>
       <a href={routeMap.contact[lang]}>{t.nav.contact}</a>
@@ -25,9 +33,39 @@ const year = new Date().getFullYear();
   .site-footer { border-top: 1px solid var(--border); padding-block: var(--space-12) var(--space-8); margin-top: var(--space-24); }
   .site-footer__inner { display: flex; justify-content: space-between; gap: var(--space-8); flex-wrap: wrap; }
   .site-footer__brand { font-family: var(--font-display); font-weight: 600; }
-  .site-footer__nav { display: flex; flex-direction: column; gap: var(--space-2); }
-  .site-footer__nav a { text-decoration: none; color: var(--text-muted); }
-  .site-footer__nav a:hover { color: var(--brand); }
+  .site-footer__nav { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+  .site-footer__nav a { position: relative; display: inline-block; text-decoration: none; color: var(--text-muted); transition: color var(--transition); }
+  .site-footer__nav a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px;
+    background: var(--brand-light); border-radius: 2px;
+    transform: scaleX(0); transform-origin: left; transition: transform var(--transition);
+  }
+  .site-footer__nav a:hover { color: var(--brand-light); }
+  .site-footer__nav a:hover::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) { .site-footer__nav a::after { transition: none; } }
   .muted { color: var(--text-muted); }
   .small { font-size: var(--fs-300); margin-top: var(--space-8); }
+
+  /* LinkedIn "Seguici" button — official LinkedIn blue (intentional social affordance). */
+  .site-footer__social { margin-top: var(--space-4); }
+  .li-btn {
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; min-width: 8.5em; padding: 0.45em 1.1em;
+    background: #fff; border: 1px solid #0077b5; border-radius: 0.4em;
+    color: #0077b5; font-weight: 600; font-size: var(--fs-300); line-height: 1;
+    text-decoration: none;
+    transition: background .45s ease, color .45s ease;
+  }
+  .li-btn__label { transition: transform .45s ease; }
+  .li-btn__icon {
+    position: absolute; right: 0.7em; top: 50%; width: 1.05em; height: 1.05em;
+    transform: translateY(-50%); fill: #fff; opacity: 0; transition: opacity .45s ease;
+  }
+  .li-btn:hover { background: #0077b5; color: #fff; }
+  .li-btn:hover .li-btn__label { transform: translateX(-0.3em); }
+  .li-btn:hover .li-btn__icon { opacity: 1; }
+  .li-btn:focus-visible { outline: 3px solid #0077b5; outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    .li-btn, .li-btn__label, .li-btn__icon { transition: none; }
+  }
 </style>

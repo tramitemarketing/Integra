@@ -25,7 +25,14 @@ const productsHref = `${productBase[lang]}/${t.products[0]?.slug ?? ''}`;
   .site-header__inner { display: flex; align-items: center; gap: var(--space-6); min-height: 64px; }
   .logo { font-family: var(--font-display); font-weight: 600; letter-spacing: .04em; text-decoration: none; }
   .nav { display: flex; gap: var(--space-6); margin-inline-start: auto; }
-  .nav a { text-decoration: none; color: var(--text-muted); }
-  .nav a:hover { color: var(--brand); }
+  .nav a { position: relative; text-decoration: none; color: var(--text-muted); transition: color var(--transition); }
+  .nav a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px;
+    background: var(--brand-light); border-radius: 2px;
+    transform: scaleX(0); transform-origin: left; transition: transform var(--transition);
+  }
+  .nav a:hover { color: var(--brand-light); }
+  .nav a:hover::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) { .nav a::after { transition: none; } }
   @media (max-width: 640px) { .nav { gap: var(--space-4); font-size: var(--fs-300); } .logo { font-size: var(--fs-500); } }
 </style>
