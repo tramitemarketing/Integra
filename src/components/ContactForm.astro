@@ -1,0 +1,82 @@
+---
+// src/components/ContactForm.astro
+import type { Dictionary } from '../i18n/types';
+interface Props { t: Dictionary['contact']; sendLabel: string; }
+const { t, sendLabel } = Astro.props;
+const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
+---
+<form class="cform" action={endpoint} method="POST">
+  <fieldset class="cform__group">
+    <legend>{t.typeLabel}</legend>
+    <label class="radio"><input type="radio" name="request_type" value={t.typeInfo} checked /> {t.typeInfo}</label>
+    <label class="radio"><input type="radio" name="request_type" value={t.typeJob} /> {t.typeJob}</label>
+  </fieldset>
+
+  <div class="cform__field">
+    <label for="name">{t.nameLabel}</label>
+    <input id="name" name="name" type="text" required autocomplete="name" />
+  </div>
+
+  <div class="cform__field">
+    <label for="email">{t.emailLabel}</label>
+    <input id="email" name="email" type="email" required autocomplete="email" aria-describedby="email-err" />
+    <p id="email-err" class="cform__err" hidden>⚠ <span></span></p>
+  </div>
+
+  <div class="cform__field" data-cv hidden>
+    <label for="cv">{t.cvLabel}</label>
+    <input id="cv" name="cv_link" type="url" />
+  </div>
+
+  <div class="cform__field">
+    <label for="message">{t.messageLabel}</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+  </div>
+
+  <!-- honeypot -->
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
+
+  <button type="submit" class="btn btn--primary">{sendLabel}</button>
+</form>
+
+<style>
+  .cform { display: flex; flex-direction: column; gap: var(--space-6); max-width: 36rem; }
+  .cform__group { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-4); display: flex; gap: var(--space-6); }
+  .cform__group legend { padding-inline: var(--space-2); color: var(--text-muted); font-size: var(--fs-300); }
+  .radio { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; }
+  .cform__field { display: flex; flex-direction: column; gap: var(--space-2); }
+  .cform__field label { font-weight: 600; font-size: var(--fs-300); }
+  .cform input, .cform textarea { padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; min-height: 44px; }
+  .cform input:focus, .cform textarea:focus { border-color: var(--brand); }
+  .cform__err { color: #b00020; font-size: var(--fs-300); }
+  .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.25rem; border-radius: var(--radius); font-weight: 600; border: none; cursor: pointer; }
+  .btn--primary { background: var(--brand); color: #fff; }
+  .btn--primary:hover { background: var(--brand-dark); }
+</style>
+
+<script>
+  // Progressive enhancement: reveal CV field only for job applications.
+  const form = document.querySelector('.cform') as HTMLFormElement | null;
+  if (form) {
+    const cv = form.querySelector('[data-cv]') as HTMLElement;
+    const jobRadio = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="request_type"]'));
+    const sync = () => {
+      const isJob = jobRadio.find((r) => r.checked)?.value?.toLowerCase().includes('candid')
+        || jobRadio.find((r) => r.checked)?.value?.toLowerCase().includes('applic');
+      cv.hidden = !isJob;
+    };
+    jobRadio.forEach((r) => r.addEventListener('change', sync));
+    sync();
+
+    // Text+icon validation message (not color only)
+    const email = form.querySelector('#email') as HTMLInputElement;
+    const err = form.querySelector('#email-err') as HTMLElement;
+    const errText = err.querySelector('span') as HTMLElement;
+    email.addEventListener('invalid', (e) => {
+      e.preventDefault();
+      errText.textContent = email.validationMessage;
+      err.hidden = false;
+    });
+    email.addEventListener('input', () => { if (email.validity.valid) err.hidden = true; });
+  }
+</script>
