@@ -27,23 +27,30 @@ const { pre, words, post } = Astro.props;
 </style>
 
 <script>
-  const root = document.querySelector('.hero-rotator') as HTMLElement | null;
-  if (root) {
+  const timers: ReturnType<typeof setInterval>[] = [];
+
+  document.addEventListener('astro:before-swap', () => {
+    timers.forEach(clearInterval);
+    timers.length = 0;
+  });
+
+  document.querySelectorAll<HTMLElement>('.hero-rotator').forEach((root) => {
     const words: string[] = JSON.parse(root.dataset.words || '[]');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const wordEl = root.querySelector('.hero-rotator__word') as HTMLElement;
     if (!reduce && words.length > 1) {
       let i = 0;
-      setInterval(() => {
+      const id = setInterval(() => {
         wordEl.classList.add('is-out');
         setTimeout(() => {
           i = (i + 1) % words.length;
           wordEl.textContent = words[i];
           wordEl.classList.remove('is-out');
           wordEl.classList.add('is-in');
-          requestAnimationFrame(() => wordEl.classList.remove('is-in'));
+          requestAnimationFrame(() => requestAnimationFrame(() => wordEl.classList.remove('is-in')));
         }, 400);
       }, 2600);
+      timers.push(id);
     }
-  }
+  });
 </script>

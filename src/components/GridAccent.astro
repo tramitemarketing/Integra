@@ -1,6 +1,9 @@
 ---
 // src/components/GridAccent.astro
 // A faint static blueprint grid for ONE band only. No animation, no navy flood.
+// IMPORTANT: the consuming section MUST have `position: relative` (or another
+// positioned context) and place its content above this element (z-index > 0),
+// otherwise `position: absolute; inset: 0` will size to the wrong ancestor.
 ---
 <div class="grid-accent" aria-hidden="true"></div>
 <style>

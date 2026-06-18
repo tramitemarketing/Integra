@@ -8,8 +8,8 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
 <form class="cform" action={endpoint} method="POST">
   <fieldset class="cform__group">
     <legend>{t.typeLabel}</legend>
-    <label class="radio"><input type="radio" name="request_type" value={t.typeInfo} checked /> {t.typeInfo}</label>
-    <label class="radio"><input type="radio" name="request_type" value={t.typeJob} /> {t.typeJob}</label>
+    <label class="radio"><input type="radio" name="request_type" value={t.typeInfo} data-type="info" checked /> {t.typeInfo}</label>
+    <label class="radio"><input type="radio" name="request_type" value={t.typeJob} data-type="job" /> {t.typeJob}</label>
   </fieldset>
 
   <div class="cform__field">
@@ -61,8 +61,8 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
     const cv = form.querySelector('[data-cv]') as HTMLElement;
     const jobRadio = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="request_type"]'));
     const sync = () => {
-      const isJob = jobRadio.find((r) => r.checked)?.value?.toLowerCase().includes('candid')
-        || jobRadio.find((r) => r.checked)?.value?.toLowerCase().includes('applic');
+      const checked = jobRadio.find((r) => r.checked);
+      const isJob = checked?.dataset.type === 'job';
       cv.hidden = !isJob;
     };
     jobRadio.forEach((r) => r.addEventListener('change', sync));

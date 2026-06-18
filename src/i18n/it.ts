@@ -8,7 +8,7 @@ export const it: Dictionary = {
     contact: { title: "Contatti e lavora con noi | Integra", description: "Contatta Integra per informazioni sui nostri prodotti o candidati per lavorare con noi. Sede a L’Aquila, operativi in tutta Italia." },
     product: (name: string) => ({ title: `${name} — Soluzione software | Integra`, description: `${name}: software Integra per i comuni. Scopri cos’è, a chi serve e i casi d’uso.` }),
   },
-  a11y: { skipLink: 'Salta al contenuto', navPrimary: 'Primaria' },
+  a11y: { skipLink: 'Salta al contenuto', navPrimary: 'Primaria', photoOf: 'Foto di' },
   nav: { about: 'Chi siamo', products: 'Prodotti', team: 'Team', contact: 'Contatti' },
   cta: { contact: 'Contattaci', discover: 'Scopri di più', send: 'Invia' },
   home: {

@@ -5,7 +5,7 @@ interface Props { items: CaseEntry[]; label: string; }
 const { items, label } = Astro.props;
 ---
 <div class="carousel" role="region" aria-label={label}>
-  <ul class="carousel__track">
+  <ul class="carousel__track" tabindex="0">
     {items.map((it) => (
       <li class="carousel__item">
         <article class="card">
@@ -55,6 +55,15 @@ const { items, label } = Astro.props;
         const amount = track.clientWidth * 0.8;
         track.scrollBy({ left: btn.dataset.dir === 'next' ? amount : -amount, behavior: 'smooth' });
       });
+    });
+    track.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        track.scrollBy({ left: track.clientWidth * 0.8, behavior: 'smooth' });
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        track.scrollBy({ left: -(track.clientWidth * 0.8), behavior: 'smooth' });
+      }
     });
   });
 </script>

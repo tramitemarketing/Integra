@@ -8,7 +8,7 @@ export const en: Dictionary = {
     contact: { title: 'Contact & careers | Integra', description: "Contact Integra for product information or apply to work with us. Based in L'Aquila, operating across Italy." },
     product: (name: string) => ({ title: `${name} — Software solution | Integra`, description: `${name}: Integra software for municipalities. Learn what it is, who it is for and its use cases.` }),
   },
-  a11y: { skipLink: 'Skip to content', navPrimary: 'Primary' },
+  a11y: { skipLink: 'Skip to content', navPrimary: 'Primary', photoOf: 'Photo of' },
   nav: { about: 'About', products: 'Products', team: 'Team', contact: 'Contact' },
   cta: { contact: 'Contact us', discover: 'Learn more', send: 'Send' },
   home: {
