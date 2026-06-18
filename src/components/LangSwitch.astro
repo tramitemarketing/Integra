@@ -1,0 +1,16 @@
+---
+// src/components/LangSwitch.astro
+import { getLangFromUrl, switchLocalePath } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const other = lang === 'it' ? 'en' : 'it';
+const href = switchLocalePath(Astro.url.pathname, lang, other);
+---
+<a class="langswitch" href={href} hreflang={other} aria-label={`Switch to ${other.toUpperCase()}`}>
+  <span class={lang === 'it' ? 'is-active' : ''}>IT</span>
+  <span aria-hidden="true">/</span>
+  <span class={lang === 'en' ? 'is-active' : ''}>EN</span>
+</a>
+<style>
+  .langswitch { display: inline-flex; gap: .35rem; font-size: var(--fs-300); color: var(--text-muted); text-decoration: none; }
+  .langswitch .is-active { color: var(--text); font-weight: 600; }
+</style>

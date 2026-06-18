@@ -1,0 +1,31 @@
+---
+// src/components/Header.astro
+import LangSwitch from './LangSwitch.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { routeMap, productBase } from '../i18n/routes';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const r = (key: keyof typeof routeMap) => routeMap[key][lang];
+const productsHref = `${productBase[lang]}/${t.products[0].slug}`;
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href={r('home')} class="logo" aria-label="Integra — home">INTEGRA</a>
+    <nav class="nav" aria-label="Primaria">
+      <a href={r('about')}>{t.nav.about}</a>
+      <a href={productsHref}>{t.nav.products}</a>
+      <a href={r('team')}>{t.nav.team}</a>
+      <a href={r('contact')}>{t.nav.contact}</a>
+    </nav>
+    <LangSwitch />
+  </div>
+</header>
+<style>
+  .site-header { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); z-index: 10; }
+  .site-header__inner { display: flex; align-items: center; gap: var(--space-6); min-height: 64px; }
+  .logo { font-family: var(--font-display); font-weight: 600; letter-spacing: .04em; text-decoration: none; }
+  .nav { display: flex; gap: var(--space-6); margin-inline-start: auto; }
+  .nav a { text-decoration: none; color: var(--text-muted); }
+  .nav a:hover { color: var(--brand); }
+  @media (max-width: 640px) { .nav { gap: var(--space-4); font-size: var(--fs-300); } .logo { font-size: var(--fs-500); } }
+</style>
