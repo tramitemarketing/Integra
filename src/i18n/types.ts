@@ -23,7 +23,7 @@ export interface Dictionary {
     home: PageMeta; about: PageMeta; team: PageMeta; contact: PageMeta;
     product: (name: string) => PageMeta;
   };
-  a11y: { skipLink: string; navPrimary: string; photoOf: string };
+  a11y: { skipLink: string; navPrimary: string; photoOf: string; carouselPrev: string; carouselNext: string };
   nav: NavLabels;
   cta: { contact: string; discover: string; send: string };
   home: {

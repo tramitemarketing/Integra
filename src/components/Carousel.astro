@@ -1,8 +1,10 @@
 ---
 // src/components/Carousel.astro
 import type { CaseEntry } from '../i18n/types';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 interface Props { items: CaseEntry[]; label: string; }
 const { items, label } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 <div class="carousel" role="region" aria-label={label}>
   <ul class="carousel__track" tabindex="0">
@@ -20,8 +22,8 @@ const { items, label } = Astro.props;
     ))}
   </ul>
   <div class="carousel__nav">
-    <button class="carousel__btn" data-dir="prev" aria-label="Precedente">←</button>
-    <button class="carousel__btn" data-dir="next" aria-label="Successivo">→</button>
+    <button class="carousel__btn" data-dir="prev" aria-label={t.a11y.carouselPrev}>←</button>
+    <button class="carousel__btn" data-dir="next" aria-label={t.a11y.carouselNext}>→</button>
   </div>
 </div>
 
