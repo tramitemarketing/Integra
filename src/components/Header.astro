@@ -6,12 +6,12 @@ import { routeMap, productBase } from '../i18n/routes';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const r = (key: keyof typeof routeMap) => routeMap[key][lang];
-const productsHref = `${productBase[lang]}/${t.products[0].slug}`;
+const productsHref = `${productBase[lang]}/${t.products[0]?.slug ?? ''}`;
 ---
 <header class="site-header">
   <div class="container site-header__inner">
     <a href={r('home')} class="logo" aria-label="Integra — home">INTEGRA</a>
-    <nav class="nav" aria-label="Primaria">
+    <nav class="nav" aria-label={t.a11y.navPrimary}>
       <a href={r('about')}>{t.nav.about}</a>
       <a href={productsHref}>{t.nav.products}</a>
       <a href={r('team')}>{t.nav.team}</a>

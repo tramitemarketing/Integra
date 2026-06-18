@@ -56,3 +56,20 @@ a.link:hover { color: var(--brand-dark); }
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
+.visually-hidden:focus,
+.visually-hidden:focus-visible {
+  position: fixed;
+  top: var(--space-2);
+  left: var(--space-2);
+  width: auto;
+  height: auto;
+  padding: var(--space-2) var(--space-4);
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: var(--brand);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  z-index: 100;
+}

@@ -4,7 +4,7 @@ import '../styles/global.css';
 import Seo from '../components/Seo.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getLangFromUrl } from '../i18n/utils';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import type { PageKey } from '../i18n/routes';
 
 interface Props {
@@ -15,6 +15,7 @@ interface Props {
 }
 const { title, description, pageKey, jsonLd } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 <!doctype html>
 <html lang={lang}>
@@ -25,7 +26,7 @@ const lang = getLangFromUrl(Astro.url);
     <Seo lang={lang} title={title} description={description} pageKey={pageKey} jsonLd={jsonLd} />
   </head>
   <body>
-    <a href="#main" class="visually-hidden">Salta al contenuto</a>
+    <a href="#main" class="visually-hidden">{t.a11y.skipLink}</a>
     <Header />
     <main id="main">
       <slot />
