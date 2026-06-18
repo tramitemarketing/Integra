@@ -1,0 +1,66 @@
+import type { Dictionary } from './types';
+
+export const en: Dictionary = {
+  meta: {
+    home: { title: 'Integra — Software for municipalities for 25 years', description: 'Integra is a software house from L'Aquila that has built software for municipalities and local governments for 25 years, pairing proven reliability with modern, AI-assisted development.' },
+    about: { title: 'About — 25 years of public-sector software | Integra', description: 'The Integra story: 25 years as pioneers of software for public administration, the technologies we use and our AI-assisted development approach.' },
+    team: { title: 'Team — The people of Integra', description: 'The people behind Integra: skills, roles and experience serving Italian municipalities.' },
+    contact: { title: 'Contact & careers | Integra', description: 'Contact Integra for product information or apply to work with us. Based in L'Aquila, operating across Italy.' },
+    product: (name: string) => ({ title: `${name} — Software solution | Integra`, description: `${name}: Integra software for municipalities. Learn what it is, who it is for and its use cases.` }),
+  },
+  nav: { about: 'About', products: 'Products', team: 'Team', contact: 'Contact' },
+  cta: { contact: 'Contact us', discover: 'Learn more', send: 'Send' },
+  home: {
+    heroPre: 'Software for',
+    heroRotating: ['municipalities', 'public administration', 'local territories', 'the public sector'],
+    heroPost: 'for 25 years.',
+    heroLead: 'The reliability of those who were there first, the methods of those looking ahead. We build tools that administrations use every day. [TO WRITE: refine claim]',
+    productsTitle: 'Our products',
+    casesTitle: 'Where we work',
+    casesLead: 'Municipalities and administrations that use our solutions. [TO WRITE: real references]',
+    historyTitle: '25 years, still pioneers',
+    historyBody: 'We have lived through every technological revolution in the field. Today we use AI in development to ship faster and better. [TO WRITE]',
+  },
+  about: {
+    lead: 'Integra was founded in L'Aquila 25 years ago to bring serious software into public administration. [TO WRITE]',
+    historyTitle: 'Our story',
+    historyBody: '[TO WRITE: the 25-year story, pioneers, technological revolutions]',
+    techTitle: 'The technologies we use',
+    tech: ['[TO WRITE: stack 1]', '[TO WRITE: stack 2]', '[TO WRITE: stack 3]'],
+    aiTitle: 'Our approach to AI',
+    aiBody: '[TO WRITE: how you use AI in development, concrete, no hype]',
+  },
+  team: {
+    lead: 'The people who design, write and maintain our products. [TO WRITE]',
+    members: [
+      { name: '[TO WRITE: Name 1]', role: '[Role]', bio: '[Short bio]', photo: '/placeholder/team.svg' },
+      { name: '[TO WRITE: Name 2]', role: '[Role]', bio: '[Short bio]', photo: '/placeholder/team.svg' },
+      { name: '[TO WRITE: Name 3]', role: '[Role]', bio: '[Short bio]', photo: '/placeholder/team.svg' },
+      { name: '[TO WRITE: Name 4]', role: '[Role]', bio: '[Short bio]', photo: '/placeholder/team.svg' },
+    ],
+  },
+  contact: {
+    lead: 'Write to us for information or to apply. We reply quickly.',
+    typeLabel: 'Request type',
+    typeInfo: 'Information',
+    typeJob: 'Job application',
+    nameLabel: 'Name',
+    emailLabel: 'Email',
+    messageLabel: 'Message',
+    cvLabel: 'CV link (LinkedIn, online PDF…)',
+    careersTitle: 'Work with us',
+    careersBody: 'We look for curious, rigorous people. If you like building software that truly matters, tell us about yourself. [TO WRITE]',
+    successNote: 'Thank you! We will get back to you soon.',
+  },
+  products: [
+    { slug: 'product-1', name: '[NOME_PRODOTTO_1]', tagline: '[TO WRITE: tagline]', what: '[NOME_PRODOTTO_1] is [TO WRITE: what it is, self-contained sentence].', audience: '[TO WRITE: who it is for]', useCases: ['[Use case 1]', '[Use case 2]', '[Use case 3]'] },
+    { slug: 'product-2', name: '[NOME_PRODOTTO_2]', tagline: '[TO WRITE: tagline]', what: '[NOME_PRODOTTO_2] is [TO WRITE: what it is, self-contained sentence].', audience: '[TO WRITE: who it is for]', useCases: ['[Use case 1]', '[Use case 2]', '[Use case 3]'] },
+  ],
+  cases: [
+    { title: '[TO WRITE: Municipality / scenario 1]', description: '[Short case description]', image: '/placeholder/case.svg' },
+    { title: '[TO WRITE: Municipality / scenario 2]', description: '[Short case description]', image: '/placeholder/case.svg' },
+    { title: '[TO WRITE: Municipality / scenario 3]', description: '[Short case description]', image: '/placeholder/case.svg' },
+    { title: '[TO WRITE: Municipality / scenario 4]', description: '[Short case description]', image: '/placeholder/case.svg' },
+  ],
+  footer: { rights: '© Integra. All rights reserved.', email: 'info@integra.example', address: 'L'Aquila, Italy' },
+};
