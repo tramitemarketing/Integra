@@ -1,0 +1,16 @@
+---
+// src/components/ProductCard.astro
+interface Props { name: string; tagline: string; href: string; cta: string; }
+const { name, tagline, href, cta } = Astro.props;
+---
+<article class="pcard">
+  <h3 class="pcard__name">{name}</h3>
+  <p class="pcard__tag">{tagline}</p>
+  <a href={href} class="link">{cta} →</a>
+</article>
+<style>
+  .pcard { padding: var(--space-8); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); transition: border-color var(--transition), transform var(--transition); }
+  .pcard:hover { border-color: var(--brand); transform: translateY(-2px); }
+  .pcard__name { font-size: var(--fs-600); }
+  .pcard__tag { color: var(--text-muted); margin-block: var(--space-2) var(--space-4); }
+</style>
