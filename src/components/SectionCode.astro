@@ -1,0 +1,26 @@
+---
+// src/components/SectionCode.astro
+// TEMPORARY handoff aid: shows a visible code on each section so real copy can be
+// mapped quickly by the client ("A1 = ...", "A2 = ..."). Scheme: A=Home, B=Chi siamo,
+// C=Prodotto, D=Team, E=Contatti.
+// REMOVE ALL before launch: search the codebase for `SectionCode` / `data-section-code`.
+interface Props { code: string }
+const { code } = Astro.props;
+---
+<span class="section-code" data-section-code>{code}</span>
+
+<style>
+  .section-code {
+    display: inline-block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--brand);
+    background: var(--brand-tint);
+    border: 1px dashed var(--brand);
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-bottom: var(--space-4);
+  }
+</style>

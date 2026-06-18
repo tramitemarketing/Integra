@@ -2,17 +2,20 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 import ContactForm from '../components/ContactForm.astro';
+import SectionCode from '../components/SectionCode.astro';
 import { useTranslations } from '../i18n/utils';
 const lang = 'it' as const;
 const t = useTranslations(lang);
 ---
 <BaseLayout title={t.meta.contact.title} description={t.meta.contact.description} pageKey="contact">
   <Section>
+    <SectionCode code="E1" />
     <h1>{t.nav.contact}</h1>
     <p class="lead">{t.contact.lead}</p>
     <div class="contact-grid">
       <ContactForm t={t.contact} sendLabel={t.cta.send} />
       <aside class="careers">
+        <SectionCode code="E2" />
         <h2>{t.contact.careersTitle}</h2>
         <p>{t.contact.careersBody}</p>
       </aside>

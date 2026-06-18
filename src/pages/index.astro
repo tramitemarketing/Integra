@@ -6,6 +6,8 @@ import HeroRotator from '../components/HeroRotator.astro';
 import Carousel from '../components/Carousel.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Button from '../components/Button.astro';
+import CountUp from '../components/CountUp.astro';
+import SectionCode from '../components/SectionCode.astro';
 import { useTranslations } from '../i18n/utils';
 import { routeMap, productBase } from '../i18n/routes';
 
@@ -14,12 +16,14 @@ const t = useTranslations(lang);
 ---
 <BaseLayout title={t.meta.home.title} description={t.meta.home.description} pageKey="home">
   <Section>
+    <SectionCode code="A1" />
     <HeroRotator pre={t.home.heroPre} words={t.home.heroRotating} post={t.home.heroPost} />
     <p class="lead">{t.home.heroLead}</p>
     <p><Button href={routeMap.contact[lang]}>{t.cta.contact}</Button></p>
   </Section>
 
   <Section alt>
+    <SectionCode code="A2" />
     <Reveal as="h2">{t.home.productsTitle}</Reveal>
     <div class="grid-2">
       {t.products.map((p) => (
@@ -30,18 +34,32 @@ const t = useTranslations(lang);
   </Section>
 
   <Section>
+    <SectionCode code="A3" />
     <Reveal as="h2">{t.home.casesTitle}</Reveal>
     <p class="lead">{t.home.casesLead}</p>
     <Carousel items={t.cases} label={t.home.casesTitle} />
   </Section>
 
   <Section alt>
-    <Reveal as="h2">{t.home.historyTitle}</Reveal>
-    <p>{t.home.historyBody}</p>
+    <SectionCode code="A4" />
+    <div class="history">
+      <div class="history__stat">
+        <CountUp value={25} />
+        <span class="history__statlabel">{t.home.yearsLabel}</span>
+      </div>
+      <div>
+        <Reveal as="h2">{t.home.historyTitle}</Reveal>
+        <p>{t.home.historyBody}</p>
+      </div>
+    </div>
   </Section>
 </BaseLayout>
 
 <style>
   .lead { font-size: var(--fs-500); color: var(--text-muted); margin-block: var(--space-4) var(--space-6); }
   .grid-2 { display: grid; gap: var(--space-6); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: var(--space-8); }
+  .history { display: grid; gap: var(--space-8); align-items: center; }
+  @media (min-width: 760px) { .history { grid-template-columns: auto 1fr; gap: var(--space-16); } }
+  .history__stat { display: flex; flex-direction: column; }
+  .history__statlabel { color: var(--text-muted); font-size: var(--fs-400); margin-top: var(--space-2); max-width: 8ch; }
 </style>

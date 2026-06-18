@@ -2,14 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 import TeamCard from '../components/TeamCard.astro';
+import SectionCode from '../components/SectionCode.astro';
 import { useTranslations } from '../i18n/utils';
 const lang = 'it' as const;
 const t = useTranslations(lang);
 ---
 <BaseLayout title={t.meta.team.title} description={t.meta.team.description} pageKey="team">
   <Section>
+    <SectionCode code="D1" />
     <h1>{t.nav.team}</h1>
     <p class="lead">{t.team.lead}</p>
+    <SectionCode code="D2" />
     <div class="grid-team">
       {t.team.members.map((m) => <TeamCard member={m} />)}
     </div>
