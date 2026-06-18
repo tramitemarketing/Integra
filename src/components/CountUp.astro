@@ -1,0 +1,49 @@
+---
+// src/components/CountUp.astro
+// Animates a number from 0 to `value` when it scrolls into view.
+// Renders the final value statically so no-JS / reduced-motion users see it immediately.
+interface Props { value: number; suffix?: string; duration?: number; class?: string; }
+const { value, suffix = '', duration = 1400, class: cls = '' } = Astro.props;
+---
+<span class={`countup ${cls}`} data-value={value} data-duration={duration}>{value}{suffix}</span>
+
+<style>
+  .countup {
+    font-family: var(--font-display);
+    font-size: var(--fs-900);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--brand);
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+
+<script>
+  const els = document.querySelectorAll<HTMLElement>('.countup');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (els.length && !reduce && 'IntersectionObserver' in window) {
+    const run = (el: HTMLElement) => {
+      const target = parseInt(el.dataset.value || '0', 10);
+      const dur = parseInt(el.dataset.duration || '1400', 10);
+      const suffix = el.textContent?.replace(/[0-9]/g, '') ?? '';
+      const start = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+        el.textContent = Math.round(eased * target) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target + suffix;
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { run(e.target as HTMLElement); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+
+    els.forEach((el) => io.observe(el));
+  }
+</script>

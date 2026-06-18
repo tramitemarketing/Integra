@@ -3,7 +3,8 @@
 :root {
   /* === BRAND — PROVISIONAL, replace with the exact blue from the logo SVG === */
   --brand: #2E2ECC;        /* primary blue-violet (estimate) */
-  --brand-dark: #1E1E8A;   /* same hue, darkened — hover/dark sections */
+  --brand-light: #5454E6;  /* lighter hue — ALL hover/active states (never darken on hover) */
+  --brand-dark: #1E1E8A;   /* same hue, darkened — dark sections only (NOT hover) */
   --brand-tint: #EDEDFB;   /* same hue, lightened — delicate fills */
 
   /* === NEUTRALS (the canvas) === */

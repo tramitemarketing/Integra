@@ -42,7 +42,7 @@ p { max-width: var(--prose-max); }
 
 /* link style — blue used sparingly */
 a.link { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
-a.link:hover { color: var(--brand-dark); }
+a.link:hover { color: var(--brand-light); }
 
 /* motion: reveal-on-scroll base state */
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity 500ms ease, transform 500ms ease; }

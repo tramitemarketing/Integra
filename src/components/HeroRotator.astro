@@ -1,28 +1,53 @@
 ---
 // src/components/HeroRotator.astro
-// Renders: <pre> <rotating word> <post>. Fixed-height slot = no layout shift.
+// Stacked title: the black `pre`/`post` lines stay fixed; only the blue word,
+// on its own fixed-height line, animates. No reflow of the surrounding text.
 interface Props { pre: string; words: string[]; post: string; }
 const { pre, words, post } = Astro.props;
 ---
 <h1 class="hero-title">
-  {pre}{' '}
+  <span class="hero-line">{pre}</span>
   <span class="hero-rotator" data-words={JSON.stringify(words)}>
     <span class="hero-rotator__word">{words[0]}</span>
-  </span>{' '}
-  {post}
+  </span>
+  <span class="hero-line">{post}</span>
 </h1>
 
 <style>
-  .hero-title { max-width: 18ch; }
-  .hero-rotator { display: inline-grid; vertical-align: bottom; overflow: hidden; }
+  .hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-line { display: block; }
+
+  /* One-shot staggered entrance on load. */
+  @keyframes heroIn { from { opacity: 0; transform: translateY(0.5em); } to { opacity: 1; transform: none; } }
+  .hero-title > * { opacity: 0; animation: heroIn 600ms cubic-bezier(.2, .7, .2, 1) forwards; }
+  .hero-title > *:nth-child(1) { animation-delay: 80ms; }
+  .hero-title > *:nth-child(2) { animation-delay: 220ms; }
+  .hero-title > *:nth-child(3) { animation-delay: 360ms; }
+
+  /* Own line, fixed height = the black lines above/below never move;
+     overflow hides the word sliding in/out; nowrap keeps it one line. */
+  .hero-rotator {
+    display: grid;
+    height: 1.1em;
+    line-height: 1.1;
+    overflow: hidden;
+    white-space: nowrap;
+  }
   .hero-rotator__word {
-    grid-area: 1 / 1; color: var(--brand);
+    grid-area: 1 / 1;
+    align-self: start;
+    color: var(--brand);
     transition: opacity 400ms ease, transform 400ms ease;
   }
   .hero-rotator__word.is-out { opacity: 0; transform: translateY(-0.6em); }
   .hero-rotator__word.is-in { opacity: 0; transform: translateY(0.6em); }
   @media (prefers-reduced-motion: reduce) {
     .hero-rotator__word { transition: none; }
+    .hero-title > * { opacity: 1; animation: none; }
   }
 </style>
 
