@@ -1,0 +1,51 @@
+---
+// src/components/Seo.astro
+import { routeMap, type PageKey } from '../i18n/routes';
+import type { Lang } from '../i18n/types';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  pageKey?: PageKey;        // for hreflang pairing on the 4 core pages
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+const { lang, title, description, pageKey, jsonLd } = Astro.props;
+const site = Astro.site!;
+const canonical = new URL(Astro.url.pathname, site).href;
+
+// hreflang pairs (only for mapped pages)
+const alternates = pageKey
+  ? [
+      { hreflang: 'it', href: new URL(routeMap[pageKey].it, site).href },
+      { hreflang: 'en', href: new URL(routeMap[pageKey].en, site).href },
+      { hreflang: 'x-default', href: new URL(routeMap[pageKey].it, site).href },
+    ]
+  : [];
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Integra',
+  url: site.href,
+  foundingDate: '2001', // 25 years as of 2026 — adjust to exact year
+  address: { '@type': 'PostalAddress', addressLocality: "L'Aquila", addressCountry: 'IT' },
+  areaServed: 'IT',
+  // sameAs: [] // TODO-PLACEHOLDER: add social profiles when available
+};
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={new URL('/og-image.svg', site).href} />
+<meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
+<meta name="twitter:card" content="summary_large_image" />
+
+<script type="application/ld+json" set:html={JSON.stringify(org)} />
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

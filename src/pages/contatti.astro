@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { useTranslations } from '../i18n/utils';
+const lang = 'it' as const;
+const t = useTranslations(lang);
+---
+<BaseLayout title={t.meta.contact.title} description={t.meta.contact.description} pageKey="contact">
+  <Section>
+    <h1>{t.nav.contact}</h1>
+    <p class="lead">{t.contact.lead}</p>
+    <div class="contact-grid">
+      <ContactForm t={t.contact} sendLabel={t.cta.send} />
+      <aside class="careers">
+        <h2>{t.contact.careersTitle}</h2>
+        <p>{t.contact.careersBody}</p>
+      </aside>
+    </div>
+  </Section>
+</BaseLayout>
+<style>
+  .lead { font-size: var(--fs-500); color: var(--text-muted); margin-block: var(--space-4) var(--space-12); }
+  .contact-grid { display: grid; gap: var(--space-16); grid-template-columns: 1fr; }
+  @media (min-width: 880px) { .contact-grid { grid-template-columns: 1.4fr 1fr; } }
+  .careers { background: var(--bg-alt); border-radius: var(--radius); padding: var(--space-8); align-self: start; }
+  .careers h2 { font-size: var(--fs-600); }
+  .careers p { margin-top: var(--space-3); color: var(--text-muted); }
+</style>

@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# AI crawlers explicitly allowed (visibility/citations)
+User-agent: ClaudeBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.integra.example/sitemap-index.xml

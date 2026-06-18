@@ -1,0 +1,13 @@
+---
+// src/components/Section.astro
+interface Props { alt?: boolean; class?: string; }
+const { alt = false, class: cls = '' } = Astro.props;
+---
+<section class={`section ${alt ? 'section--alt' : ''} ${cls}`}>
+  <div class="container"><slot /></div>
+</section>
+<style>
+  .section { padding-block: var(--space-24); }
+  .section--alt { background: var(--bg-alt); }
+  @media (max-width: 640px) { .section { padding-block: var(--space-16); } }
+</style>

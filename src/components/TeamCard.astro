@@ -1,0 +1,21 @@
+---
+// src/components/TeamCard.astro
+import type { TeamMember } from '../i18n/types';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+interface Props { member: TeamMember; }
+const { member } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+<article class="tcard">
+  <img src={member.photo} alt={`${t.a11y.photoOf} ${member.name}`} width="120" height="120" loading="lazy" />
+  <h3 class="tcard__name">{member.name}</h3>
+  <p class="tcard__role">{member.role}</p>
+  <p class="tcard__bio">{member.bio}</p>
+</article>
+<style>
+  .tcard { text-align: center; }
+  .tcard img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-inline: auto; background: var(--bg-alt); }
+  .tcard__name { font-size: var(--fs-500); margin-top: var(--space-3); }
+  .tcard__role { color: var(--brand); font-weight: 600; font-size: var(--fs-300); }
+  .tcard__bio { color: var(--text-muted); font-size: var(--fs-300); margin-top: var(--space-2); margin-inline: auto; }
+</style>
