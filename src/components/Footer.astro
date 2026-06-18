@@ -25,9 +25,11 @@ const year = new Date().getFullYear();
       <a href={routeMap.about[lang]}>{t.nav.about}</a>
       <a href={routeMap.team[lang]}>{t.nav.team}</a>
       <a href={routeMap.contact[lang]}>{t.nav.contact}</a>
+      <a href={routeMap.privacy[lang]}>{t.nav.privacy}</a>
     </nav>
   </div>
-  <p class="container muted small">© {year} — {t.footer.rights}</p>
+  <p class="container muted small">{t.footer.legal}</p>
+  <p class="container muted small copyright">© {year} — {t.footer.rights}</p>
 </footer>
 <style>
   .site-footer { border-top: 1px solid var(--border); padding-block: var(--space-12) var(--space-8); margin-top: var(--space-24); }
@@ -45,6 +47,7 @@ const year = new Date().getFullYear();
   @media (prefers-reduced-motion: reduce) { .site-footer__nav a::after { transition: none; } }
   .muted { color: var(--text-muted); }
   .small { font-size: var(--fs-300); margin-top: var(--space-8); }
+  .copyright { margin-top: var(--space-2); }
 
   /* LinkedIn "Seguici" button — official LinkedIn blue (intentional social affordance). */
   .site-footer__social { margin-top: var(--space-4); }

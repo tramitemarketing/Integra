@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import { useTranslations } from '../../i18n/utils';
+import { routeMap } from '../../i18n/routes';
+const lang = 'en' as const;
+const t = useTranslations(lang);
+const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: t.nav.privacy }];
+---
+<BaseLayout title={t.meta.privacy.title} description={t.meta.privacy.description} pageKey="privacy" breadcrumb={crumbs}>
+  <Section>
+    <h1>Privacy policy</h1>
+    <p class="muted">Last updated: [TO COMPLETE]</p>
+    <div class="prose">
+      <p>[TO COMPLETE: short introduction on how Integra processes the personal data collected through this website, pursuant to EU Regulation 2016/679 (GDPR).]</p>
+
+      <h2>Data controller</h2>
+      <p>Integra S.r.l., registered office at [TO COMPLETE], VAT [TO COMPLETE]. Email: <a class="link" href={`mailto:${t.footer.email}`}>{t.footer.email}</a>. Data Protection Officer (DPO), if appointed: [TO COMPLETE].</p>
+
+      <h2>Data we collect</h2>
+      <p>Through the contact form we collect: name, email address, message content and, for job applications, an optional link to a CV. [TO COMPLETE: any other data processed.]</p>
+
+      <h2>Purposes and legal basis</h2>
+      <p>[TO COMPLETE: replying to enquiries and handling applications. Legal basis: art. 6 GDPR (consent / pre-contractual measures).]</p>
+
+      <h2>Data retention</h2>
+      <p>[TO COMPLETE: how long data is kept.]</p>
+
+      <h2>Data sharing</h2>
+      <p>[TO COMPLETE: any third parties, e.g. the form delivery provider (Formspree) and the hosting. State whether there are any non-EU transfers.]</p>
+
+      <h2>Your rights</h2>
+      <p>[TO COMPLETE: right of access, rectification, erasure, restriction, objection and portability; right to lodge a complaint with the supervisory authority.]</p>
+
+      <h2>Cookies</h2>
+      <p>[TO COMPLETE: state whether the site uses cookies. Currently the site does not use profiling cookies.]</p>
+
+      <h2>Changes to this policy</h2>
+      <p>[TO COMPLETE]</p>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .muted { color: var(--text-muted); font-size: var(--fs-300); margin-top: var(--space-2); }
+  .prose { max-width: var(--prose-max); margin-top: var(--space-8); }
+  .prose h2 { font-size: var(--fs-600); margin-top: var(--space-8); }
+  .prose p { margin-top: var(--space-3); }
+</style>

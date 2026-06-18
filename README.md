@@ -55,3 +55,5 @@ e il componente `src/components/SectionCode.astro`. Gli elementi resi hanno l'at
 - [ ] Profili social → `sameAs` in `Seo.astro`
 - [ ] Anno di fondazione esatto → `foundingDate` in `Seo.astro`
 - [ ] OG image: export `public/og-image.svg` to PNG (social crawlers don't render SVG) and update the path in `src/components/Seo.astro`
+- [ ] Testo **informativa privacy** → pagine `/privacy` e `/en/privacy` (segnaposti `[DA COMPLETARE]`)
+- [ ] **Dati legali** footer (P.IVA, REA, capitale sociale, sede) → `footer.legal` in `it.ts` / `en.ts`

@@ -6,10 +6,11 @@ export const en: Dictionary = {
     about: { title: 'About — 25 years of public-sector software | Integra', description: 'The Integra story: 25 years as pioneers of software for public administration, the technologies we use and our AI-assisted development approach.' },
     team: { title: 'Team — The people of Integra', description: 'The people behind Integra: skills, roles and experience serving Italian municipalities.' },
     contact: { title: 'Contact & careers | Integra', description: "Contact Integra for product information or apply to work with us. Based in L'Aquila, operating across Italy." },
+    privacy: { title: 'Privacy policy | Integra', description: 'How Integra processes the personal data collected through the website and the contact form.' },
     product: (name: string) => ({ title: `${name} — Software solution | Integra`, description: `${name}: Integra software for municipalities. Learn what it is, who it is for and its use cases.` }),
   },
   a11y: { skipLink: 'Skip to content', navPrimary: 'Primary', photoOf: 'Photo of', carouselPrev: 'Previous', carouselNext: 'Next' },
-  nav: { home: 'Home', about: 'About', products: 'Products', team: 'Team', contact: 'Contact' },
+  nav: { home: 'Home', about: 'About', products: 'Products', team: 'Team', contact: 'Contact', privacy: 'Privacy' },
   cta: { contact: 'Contact us', discover: 'Learn more', send: 'Send' },
   home: {
     heroPre: 'Software for',
@@ -54,6 +55,8 @@ export const en: Dictionary = {
     careersBody: 'We look for curious, rigorous people. If you like building software that truly matters, tell us about yourself. [TO WRITE]',
     successNote: 'Thank you! We will get back to you soon.',
     errorNote: 'Something went wrong. Please try again or email us.',
+    consentText: 'I have read and accept the ',
+    consentLink: 'privacy policy',
   },
   products: [
     { slug: 'product-1', name: '[NOME_PRODOTTO_1]', tagline: '[TO WRITE: tagline]', what: '[NOME_PRODOTTO_1] is [TO WRITE: what it is, self-contained sentence].', audience: '[TO WRITE: who it is for]', useCases: ['[Use case 1]', '[Use case 2]', '[Use case 3]'] },
@@ -65,5 +68,5 @@ export const en: Dictionary = {
     { title: '[TO WRITE: Municipality / scenario 3]', description: '[Short case description]', image: '/placeholder/case.svg' },
     { title: '[TO WRITE: Municipality / scenario 4]', description: '[Short case description]', image: '/placeholder/case.svg' },
   ],
-  footer: { rights: '© Integra. All rights reserved.', email: 'info@integra.example', address: "L'Aquila, Italy", follow: 'Follow us' },
+  footer: { rights: '© Integra. All rights reserved.', email: 'info@integra.example', address: "L'Aquila, Italy", follow: 'Follow us', legal: 'Integra S.r.l. · VAT [TO COMPLETE] · REA [TO COMPLETE] · Share capital [TO COMPLETE] · Registered office: [TO COMPLETE]' },
 };

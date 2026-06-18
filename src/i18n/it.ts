@@ -6,10 +6,11 @@ export const it: Dictionary = {
     about: { title: "Chi siamo — 25 anni di software per la PA | Integra", description: "La storia di Integra: 25 anni da pionieri del software per la pubblica amministrazione, le tecnologie che usiamo e il nostro approccio allo sviluppo con l’AI." },
     team: { title: "Il team — Le persone di Integra", description: "Le persone dietro Integra: competenze, ruoli ed esperienza al servizio dei comuni italiani." },
     contact: { title: "Contatti e lavora con noi | Integra", description: "Contatta Integra per informazioni sui nostri prodotti o candidati per lavorare con noi. Sede a L’Aquila, operativi in tutta Italia." },
+    privacy: { title: "Informativa sulla privacy | Integra", description: "Come Integra tratta i dati personali raccolti tramite il sito e il modulo di contatto." },
     product: (name: string) => ({ title: `${name} — Soluzione software | Integra`, description: `${name}: software Integra per i comuni. Scopri cos’è, a chi serve e i casi d’uso.` }),
   },
   a11y: { skipLink: 'Salta al contenuto', navPrimary: 'Primaria', photoOf: 'Foto di', carouselPrev: 'Precedente', carouselNext: 'Successivo' },
-  nav: { home: 'Home', about: 'Chi siamo', products: 'Prodotti', team: 'Team', contact: 'Contatti' },
+  nav: { home: 'Home', about: 'Chi siamo', products: 'Prodotti', team: 'Team', contact: 'Contatti', privacy: 'Privacy' },
   cta: { contact: 'Contattaci', discover: 'Scopri di più', send: 'Invia' },
   home: {
     heroPre: 'Software per',
@@ -54,6 +55,8 @@ export const it: Dictionary = {
     careersBody: 'Cerchiamo persone curiose e rigorose. Se ti piace costruire software che serve davvero, raccontaci di te. [DA SCRIVERE]',
     successNote: 'Grazie! Ti ricontatteremo a breve.',
     errorNote: 'Qualcosa è andato storto. Riprova o scrivici via email.',
+    consentText: "Ho letto e accetto l'",
+    consentLink: 'informativa sulla privacy',
   },
   products: [
     { slug: 'prodotto-1', name: '[NOME_PRODOTTO_1]', tagline: '[DA SCRIVERE: tagline]', what: "[NOME_PRODOTTO_1] è [DA SCRIVERE: cos’è in una frase autoconclusiva].", audience: '[DA SCRIVERE: a chi serve]', useCases: ["[Caso d’uso 1]", "[Caso d’uso 2]", "[Caso d’uso 3]"] },
@@ -65,5 +68,5 @@ export const it: Dictionary = {
     { title: '[DA SCRIVERE: Comune / scenario 3]', description: '[Breve descrizione del caso]', image: '/placeholder/case.svg' },
     { title: '[DA SCRIVERE: Comune / scenario 4]', description: '[Breve descrizione del caso]', image: '/placeholder/case.svg' },
   ],
-  footer: { rights: '© Integra. Tutti i diritti riservati.', email: 'info@integra.example', address: "L’Aquila, Italia", follow: 'Seguici' },
+  footer: { rights: '© Integra. Tutti i diritti riservati.', email: 'info@integra.example', address: "L’Aquila, Italia", follow: 'Seguici', legal: 'Integra S.r.l. · P.IVA [DA COMPLETARE] · REA [DA COMPLETARE] · Cap. soc. [DA COMPLETARE] · Sede legale: [DA COMPLETARE]' },
 };

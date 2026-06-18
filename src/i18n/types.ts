@@ -3,7 +3,7 @@ export type Lang = 'it' | 'en';
 
 export interface PageMeta { title: string; description: string; }
 
-export interface NavLabels { home: string; about: string; products: string; team: string; contact: string; }
+export interface NavLabels { home: string; about: string; products: string; team: string; contact: string; privacy: string; }
 
 export interface ProductEntry {
   slug: string;            // localized slug (used in URL)
@@ -20,7 +20,7 @@ export interface TeamMember { name: string; role: string; bio: string; photo: st
 
 export interface Dictionary {
   meta: {
-    home: PageMeta; about: PageMeta; team: PageMeta; contact: PageMeta;
+    home: PageMeta; about: PageMeta; team: PageMeta; contact: PageMeta; privacy: PageMeta;
     product: (name: string) => PageMeta;
   };
   a11y: { skipLink: string; navPrimary: string; photoOf: string; carouselPrev: string; carouselNext: string };
@@ -47,8 +47,9 @@ export interface Dictionary {
     careersTitle: string; careersBody: string;
     successNote: string;
     errorNote: string;
+    consentText: string; consentLink: string;
   };
   products: ProductEntry[];
   cases: CaseEntry[];
-  footer: { rights: string; email: string; address: string; follow: string };
+  footer: { rights: string; email: string; address: string; follow: string; legal: string };
 }

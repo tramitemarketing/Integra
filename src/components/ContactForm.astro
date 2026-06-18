@@ -1,8 +1,8 @@
 ---
 // src/components/ContactForm.astro
 import type { Dictionary } from '../i18n/types';
-interface Props { t: Dictionary['contact']; sendLabel: string; }
-const { t, sendLabel } = Astro.props;
+interface Props { t: Dictionary['contact']; sendLabel: string; privacyHref: string; }
+const { t, sendLabel, privacyHref } = Astro.props;
 const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
 ---
 <form class="cform" action={endpoint} method="POST">
@@ -36,6 +36,11 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
   <!-- honeypot -->
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
 
+  <label class="cform__consent">
+    <input type="checkbox" name="privacy_consent" required />
+    <span>{t.consentText}<a href={privacyHref} class="link">{t.consentLink}</a></span>
+  </label>
+
   <button type="submit" class="btn btn--primary btn--reveal">
     <span class="btn__label">{sendLabel}</span>
     <span class="btn__icon" aria-hidden="true">
@@ -56,6 +61,8 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
   .cform input, .cform textarea { padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; min-height: 44px; }
   .cform input:focus, .cform textarea:focus { border-color: var(--brand); }
   .cform__err { color: #b00020; font-size: var(--fs-300); }
+  .cform__consent { display: flex; align-items: flex-start; gap: .6rem; font-size: var(--fs-300); color: var(--text-muted); }
+  .cform__consent input { width: 18px; height: 18px; margin-top: 2px; flex: 0 0 auto; }
   .cform__status { font-size: var(--fs-400); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); }
   .cform__status.is-ok { color: #0a7a3d; background: #e8f6ee; border: 1px solid #bfe6cf; }
   .cform__status.is-err { color: #b00020; background: #fdeaee; border: 1px solid #f4c4cf; }

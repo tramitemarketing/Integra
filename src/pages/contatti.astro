@@ -4,16 +4,18 @@ import Section from '../components/Section.astro';
 import ContactForm from '../components/ContactForm.astro';
 import SectionCode from '../components/SectionCode.astro';
 import { useTranslations } from '../i18n/utils';
+import { routeMap } from '../i18n/routes';
 const lang = 'it' as const;
 const t = useTranslations(lang);
+const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: t.nav.contact }];
 ---
-<BaseLayout title={t.meta.contact.title} description={t.meta.contact.description} pageKey="contact">
+<BaseLayout title={t.meta.contact.title} description={t.meta.contact.description} pageKey="contact" breadcrumb={crumbs}>
   <Section>
     <SectionCode code="E1" />
     <h1>{t.nav.contact}</h1>
     <p class="lead">{t.contact.lead}</p>
     <div class="contact-grid">
-      <ContactForm t={t.contact} sendLabel={t.cta.send} />
+      <ContactForm t={t.contact} sendLabel={t.cta.send} privacyHref={routeMap.privacy[lang]} />
       <aside class="careers">
         <SectionCode code="E2" />
         <h2>{t.contact.careersTitle}</h2>
