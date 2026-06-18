@@ -1,0 +1,41 @@
+---
+// src/components/Breadcrumb.astro
+// Visible breadcrumb trail + BreadcrumbList JSON-LD. The last item is the current page.
+interface Crumb { name: string; href?: string }
+interface Props { items: Crumb[] }
+const { items } = Astro.props;
+const site = Astro.site!;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.name,
+    ...(c.href ? { item: new URL(c.href, site).href } : {}),
+  })),
+};
+---
+<nav class="crumbs" aria-label="Breadcrumb">
+  <ol>
+    {items.map((c, i) => (
+      <li>
+        {c.href && i < items.length - 1
+          ? <a href={c.href}>{c.name}</a>
+          : <span aria-current="page">{c.name}</span>}
+        {i < items.length - 1 && <span class="crumbs__sep" aria-hidden="true">/</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+
+<style>
+  .crumbs ol { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding: 0; margin: 0; font-size: var(--fs-300); }
+  .crumbs li { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .crumbs a { color: var(--text-muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--brand-light); }
+  .crumbs [aria-current="page"] { color: var(--text); }
+  .crumbs__sep { color: var(--border); }
+</style>

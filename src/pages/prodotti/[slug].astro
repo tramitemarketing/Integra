@@ -26,8 +26,9 @@ const jsonLd = {
   publisher: { '@type': 'Organization', name: 'Integra' },
   // No Offer/price — showcase site, B2G, no pricing.
 };
+const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: product.name }];
 ---
-<BaseLayout title={t.meta.product(product.name).title} description={t.meta.product(product.name).description} jsonLd={jsonLd}>
+<BaseLayout title={t.meta.product(product.name).title} description={t.meta.product(product.name).description} jsonLd={jsonLd} breadcrumb={crumbs}>
   <Section>
     <SectionCode code="C1" />
     <h1>{product.name}</h1>

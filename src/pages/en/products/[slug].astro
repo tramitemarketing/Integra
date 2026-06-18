@@ -25,8 +25,9 @@ const jsonLd = {
   operatingSystem: 'Web',
   publisher: { '@type': 'Organization', name: 'Integra' },
 };
+const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: product.name }];
 ---
-<BaseLayout title={t.meta.product(product.name).title} description={t.meta.product(product.name).description} jsonLd={jsonLd}>
+<BaseLayout title={t.meta.product(product.name).title} description={t.meta.product(product.name).description} jsonLd={jsonLd} breadcrumb={crumbs}>
   <Section>
     <SectionCode code="C1" />
     <h1>{product.name}</h1>

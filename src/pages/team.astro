@@ -4,10 +4,12 @@ import Section from '../components/Section.astro';
 import TeamCard from '../components/TeamCard.astro';
 import SectionCode from '../components/SectionCode.astro';
 import { useTranslations } from '../i18n/utils';
+import { routeMap } from '../i18n/routes';
 const lang = 'it' as const;
 const t = useTranslations(lang);
+const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: t.nav.team }];
 ---
-<BaseLayout title={t.meta.team.title} description={t.meta.team.description} pageKey="team">
+<BaseLayout title={t.meta.team.title} description={t.meta.team.description} pageKey="team" breadcrumb={crumbs}>
   <Section>
     <SectionCode code="D1" />
     <h1>{t.nav.team}</h1>

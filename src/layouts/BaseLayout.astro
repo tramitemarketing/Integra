@@ -4,6 +4,7 @@ import '../styles/global.css';
 import Seo from '../components/Seo.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import type { PageKey } from '../i18n/routes';
 
@@ -12,8 +13,9 @@ interface Props {
   description: string;
   pageKey?: PageKey;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  breadcrumb?: { name: string; href?: string }[];
 }
-const { title, description, pageKey, jsonLd } = Astro.props;
+const { title, description, pageKey, jsonLd, breadcrumb } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
@@ -29,8 +31,14 @@ const t = useTranslations(lang);
     <a href="#main" class="visually-hidden">{t.a11y.skipLink}</a>
     <Header />
     <main id="main">
+      {breadcrumb && (
+        <div class="container breadcrumb-bar"><Breadcrumb items={breadcrumb} /></div>
+      )}
       <slot />
     </main>
     <Footer />
+    <style>
+      .breadcrumb-bar { padding-top: var(--space-8); }
+    </style>
   </body>
 </html>

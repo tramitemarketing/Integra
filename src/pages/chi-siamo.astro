@@ -6,8 +6,10 @@ import GridAccent from '../components/GridAccent.astro';
 import SectionCode from '../components/SectionCode.astro';
 import Terminal from '../components/Terminal.astro';
 import { useTranslations } from '../i18n/utils';
+import { routeMap } from '../i18n/routes';
 const lang = 'it' as const;
 const t = useTranslations(lang);
+const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: t.nav.about }];
 
 // Demo content for the AI section — editable. Believable AI-assisted B2G workflow.
 const aiSteps = [
@@ -17,7 +19,7 @@ const aiSteps = [
   { cmd: 'deploy --comune demo', out: ['✔ Rilascio completato in 12s'] },
 ];
 ---
-<BaseLayout title={t.meta.about.title} description={t.meta.about.description} pageKey="about">
+<BaseLayout title={t.meta.about.title} description={t.meta.about.description} pageKey="about" breadcrumb={crumbs}>
   <section class="hero-band">
     <GridAccent />
     <div class="container hero-band__content">
