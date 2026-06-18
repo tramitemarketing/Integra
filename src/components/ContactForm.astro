@@ -36,7 +36,12 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
   <!-- honeypot -->
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
 
-  <button type="submit" class="btn btn--primary">{sendLabel}</button>
+  <button type="submit" class="btn btn--primary btn--reveal">
+    <span class="btn__label">{sendLabel}</span>
+    <span class="btn__icon" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </span>
+  </button>
 </form>
 
 <style>
@@ -49,9 +54,31 @@ const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
   .cform input, .cform textarea { padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font: inherit; min-height: 44px; }
   .cform input:focus, .cform textarea:focus { border-color: var(--brand); }
   .cform__err { color: #b00020; font-size: var(--fs-300); }
-  .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.25rem; border-radius: var(--radius); font-weight: 600; border: none; cursor: pointer; }
+  .btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.25rem; border-radius: var(--radius); font-weight: 600; border: none; cursor: pointer; transition: background var(--transition), transform var(--transition), box-shadow var(--transition); }
   .btn--primary { background: var(--brand); color: #fff; }
-  .btn--primary:hover { background: var(--brand-dark); }
+  /* Hover = lighter + lift/glow, never darker. */
+  .btn--primary:hover { background: var(--brand-light); transform: translateY(-1px); box-shadow: 0 6px 18px color-mix(in srgb, var(--brand) 32%, transparent); }
+
+  /* Send button — sober reveal: the label fades, a light panel with a chevron
+     expands across the button. The panel is a light overlay (pops, never darkens). */
+  .btn--reveal { position: relative; overflow: hidden; min-width: 12rem; justify-content: center; }
+  .btn--reveal .btn__label { margin-right: 1.75rem; transition: opacity 500ms ease; }
+  /* the reveal IS the hover feedback — suppress the generic lift/glow here */
+  .btn--reveal:hover { background: var(--brand); transform: none; box-shadow: none; }
+  .btn--reveal:hover .btn__label { opacity: 0; }
+  .btn--reveal .btn__icon {
+    position: absolute; top: 4px; right: 4px; bottom: 4px; width: 25%;
+    display: grid; place-items: center; border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.16); color: #fff;
+    transition: width 500ms cubic-bezier(.2, .7, .2, 1);
+  }
+  .btn--reveal:hover .btn__icon { width: calc(100% - 8px); }
+  .btn--reveal:active .btn__icon { transform: scale(0.96); }
+  @media (prefers-reduced-motion: reduce) {
+    .btn--reveal .btn__label, .btn--reveal .btn__icon { transition: none; }
+    .btn--reveal:hover .btn__label { opacity: 1; }
+    .btn--reveal:hover .btn__icon { width: 25%; }
+  }
 </style>
 
 <script>
