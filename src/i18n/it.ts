@@ -2,33 +2,33 @@ import type { Dictionary } from './types';
 
 export const it: Dictionary = {
   meta: {
-    home: { title: 'Integra — Software per i comuni da 25 anni', description: 'Integra è una software house di L’Aquila che da 25 anni realizza software per municipalità e comuni, unendo affidabilità storica e sviluppo moderno con l’AI.' },
-    about: { title: 'Chi siamo — 25 anni di software per la PA | Integra', description: 'La storia di Integra: 25 anni da pionieri del software per la pubblica amministrazione, le tecnologie che usiamo e il nostro approccio allo sviluppo con l’AI.' },
-    team: { title: 'Il team — Le persone di Integra', description: 'Le persone dietro Integra: competenze, ruoli ed esperienza al servizio dei comuni italiani.' },
-    contact: { title: 'Contatti e lavora con noi | Integra', description: 'Contatta Integra per informazioni sui nostri prodotti o candidati per lavorare con noi. Sede a L’Aquila, operativi in tutta Italia.' },
+    home: { title: "Integra — Software per i comuni da 25 anni", description: "Integra è una software house di L’Aquila che da 25 anni realizza software per municipalità e comuni, unendo affidabilità storica e sviluppo moderno con l’AI." },
+    about: { title: "Chi siamo — 25 anni di software per la PA | Integra", description: "La storia di Integra: 25 anni da pionieri del software per la pubblica amministrazione, le tecnologie che usiamo e il nostro approccio allo sviluppo con l’AI." },
+    team: { title: "Il team — Le persone di Integra", description: "Le persone dietro Integra: competenze, ruoli ed esperienza al servizio dei comuni italiani." },
+    contact: { title: "Contatti e lavora con noi | Integra", description: "Contatta Integra per informazioni sui nostri prodotti o candidati per lavorare con noi. Sede a L’Aquila, operativi in tutta Italia." },
     product: (name: string) => ({ title: `${name} — Soluzione software | Integra`, description: `${name}: software Integra per i comuni. Scopri cos’è, a chi serve e i casi d’uso.` }),
   },
   nav: { about: 'Chi siamo', products: 'Prodotti', team: 'Team', contact: 'Contatti' },
   cta: { contact: 'Contattaci', discover: 'Scopri di più', send: 'Invia' },
   home: {
     heroPre: 'Software per',
-    heroRotating: ['i comuni', 'la PA', 'i territori', 'l’Italia che amministra'],
+    heroRotating: ['i comuni', 'la PA', 'i territori', "l’Italia che amministra"],
     heroPost: 'da 25 anni.',
-    heroLead: 'Affidabilità di chi c’era prima, metodi di chi guarda avanti. Costruiamo strumenti che le amministrazioni usano ogni giorno. [DA SCRIVERE: rifinire claim]',
+    heroLead: "Affidabilità di chi c’era prima, metodi di chi guarda avanti. Costruiamo strumenti che le amministrazioni usano ogni giorno. [DA SCRIVERE: rifinire claim]",
     productsTitle: 'I nostri prodotti',
     casesTitle: 'Dove lavoriamo',
     casesLead: 'Comuni e amministrazioni che usano le nostre soluzioni. [DA SCRIVERE: referenze reali]',
     historyTitle: '25 anni, e ancora pionieri',
-    historyBody: 'Abbiamo attraversato ogni rivoluzione tecnologica del settore. Oggi usiamo l’AI nello sviluppo per fare prima e meglio. [DA SCRIVERE]',
+    historyBody: "Abbiamo attraversato ogni rivoluzione tecnologica del settore. Oggi usiamo l’AI nello sviluppo per fare prima e meglio. [DA SCRIVERE]",
   },
   about: {
-    lead: 'Integra nasce a L’Aquila 25 anni fa per portare software serio dentro la pubblica amministrazione. [DA SCRIVERE]',
+    lead: "Integra nasce a L’Aquila 25 anni fa per portare software serio dentro la pubblica amministrazione. [DA SCRIVERE]",
     historyTitle: 'La nostra storia',
     historyBody: '[DA SCRIVERE: racconto dei 25 anni, pionieri, rivoluzioni tecnologiche attraversate]',
     techTitle: 'Le tecnologie che usiamo',
     tech: ['[DA SCRIVERE: stack 1]', '[DA SCRIVERE: stack 2]', '[DA SCRIVERE: stack 3]'],
-    aiTitle: 'Il nostro approccio all’AI',
-    aiBody: '[DA SCRIVERE: come usate l’AI nello sviluppo, con concretezza e senza hype]',
+    aiTitle: "Il nostro approccio all’AI",
+    aiBody: "[DA SCRIVERE: come usate l’AI nello sviluppo, con concretezza e senza hype]",
   },
   team: {
     lead: 'Le persone che progettano, scrivono e mantengono i nostri prodotti. [DA SCRIVERE]',
@@ -53,8 +53,8 @@ export const it: Dictionary = {
     successNote: 'Grazie! Ti ricontatteremo a breve.',
   },
   products: [
-    { slug: 'prodotto-1', name: '[NOME_PRODOTTO_1]', tagline: '[DA SCRIVERE: tagline]', what: '[NOME_PRODOTTO_1] è [DA SCRIVERE: cos’è in una frase autoconclusiva].', audience: '[DA SCRIVERE: a chi serve]', useCases: ['[Caso d’uso 1]', '[Caso d’uso 2]', '[Caso d’uso 3]'] },
-    { slug: 'prodotto-2', name: '[NOME_PRODOTTO_2]', tagline: '[DA SCRIVERE: tagline]', what: '[NOME_PRODOTTO_2] è [DA SCRIVERE: cos’è in una frase autoconclusiva].', audience: '[DA SCRIVERE: a chi serve]', useCases: ['[Caso d’uso 1]', '[Caso d’uso 2]', '[Caso d’uso 3]'] },
+    { slug: 'prodotto-1', name: '[NOME_PRODOTTO_1]', tagline: '[DA SCRIVERE: tagline]', what: "[NOME_PRODOTTO_1] è [DA SCRIVERE: cos’è in una frase autoconclusiva].", audience: '[DA SCRIVERE: a chi serve]', useCases: ["[Caso d’uso 1]", "[Caso d’uso 2]", "[Caso d’uso 3]"] },
+    { slug: 'prodotto-2', name: '[NOME_PRODOTTO_2]', tagline: '[DA SCRIVERE: tagline]', what: "[NOME_PRODOTTO_2] è [DA SCRIVERE: cos’è in una frase autoconclusiva].", audience: '[DA SCRIVERE: a chi serve]', useCases: ["[Caso d’uso 1]", "[Caso d’uso 2]", "[Caso d’uso 3]"] },
   ],
   cases: [
     { title: '[DA SCRIVERE: Comune / scenario 1]', description: '[Breve descrizione del caso]', image: '/placeholder/case.svg' },
@@ -62,5 +62,5 @@ export const it: Dictionary = {
     { title: '[DA SCRIVERE: Comune / scenario 3]', description: '[Breve descrizione del caso]', image: '/placeholder/case.svg' },
     { title: '[DA SCRIVERE: Comune / scenario 4]', description: '[Breve descrizione del caso]', image: '/placeholder/case.svg' },
   ],
-  footer: { rights: '© Integra. Tutti i diritti riservati.', email: 'info@integra.example', address: 'L’Aquila, Italia' },
+  footer: { rights: '© Integra. Tutti i diritti riservati.', email: 'info@integra.example', address: "L’Aquila, Italia" },
 };

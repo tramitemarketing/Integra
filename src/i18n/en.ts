@@ -2,10 +2,10 @@ import type { Dictionary } from './types';
 
 export const en: Dictionary = {
   meta: {
-    home: { title: 'Integra — Software for municipalities for 25 years', description: 'Integra is a software house from L'Aquila that has built software for municipalities and local governments for 25 years, pairing proven reliability with modern, AI-assisted development.' },
+    home: { title: 'Integra — Software for municipalities for 25 years', description: "Integra is a software house from L'Aquila that has built software for municipalities and local governments for 25 years, pairing proven reliability with modern, AI-assisted development." },
     about: { title: 'About — 25 years of public-sector software | Integra', description: 'The Integra story: 25 years as pioneers of software for public administration, the technologies we use and our AI-assisted development approach.' },
     team: { title: 'Team — The people of Integra', description: 'The people behind Integra: skills, roles and experience serving Italian municipalities.' },
-    contact: { title: 'Contact & careers | Integra', description: 'Contact Integra for product information or apply to work with us. Based in L'Aquila, operating across Italy.' },
+    contact: { title: 'Contact & careers | Integra', description: "Contact Integra for product information or apply to work with us. Based in L'Aquila, operating across Italy." },
     product: (name: string) => ({ title: `${name} — Software solution | Integra`, description: `${name}: Integra software for municipalities. Learn what it is, who it is for and its use cases.` }),
   },
   nav: { about: 'About', products: 'Products', team: 'Team', contact: 'Contact' },
@@ -22,7 +22,7 @@ export const en: Dictionary = {
     historyBody: 'We have lived through every technological revolution in the field. Today we use AI in development to ship faster and better. [TO WRITE]',
   },
   about: {
-    lead: 'Integra was founded in L'Aquila 25 years ago to bring serious software into public administration. [TO WRITE]',
+    lead: "Integra was founded in L'Aquila 25 years ago to bring serious software into public administration. [TO WRITE]",
     historyTitle: 'Our story',
     historyBody: '[TO WRITE: the 25-year story, pioneers, technological revolutions]',
     techTitle: 'The technologies we use',
@@ -62,5 +62,5 @@ export const en: Dictionary = {
     { title: '[TO WRITE: Municipality / scenario 3]', description: '[Short case description]', image: '/placeholder/case.svg' },
     { title: '[TO WRITE: Municipality / scenario 4]', description: '[Short case description]', image: '/placeholder/case.svg' },
   ],
-  footer: { rights: '© Integra. All rights reserved.', email: 'info@integra.example', address: 'L'Aquila, Italy' },
+  footer: { rights: '© Integra. All rights reserved.', email: 'info@integra.example', address: "L'Aquila, Italy" },
 };
