@@ -58,6 +58,7 @@ INTEGRA/
    ├─ components/
    │  ├─ Header.astro · Footer.astro · LangSwitch.astro
    │  ├─ Button.astro · Section.astro · Reveal.astro
+   │  ├─ HeroRotator.astro · Carousel.astro · GridAccent.astro
    │  ├─ ProductCard.astro · TeamCard.astro
    │  ├─ ContactForm.astro
    │  └─ Seo.astro         # title, meta, canonical, OG, hreflang, JSON-LD
@@ -112,15 +113,32 @@ legge come heritage).
 **Logo:** placeholder testuale "INTEGRA" in alto a sinistra. Quando arriva l'SVG va
 **contenuto** (piccolo, su fondo bianco, con aria intorno).
 
-## 6. Motion (sobrio, zero framework)
+## 6. Motion & componenti animati (sobrio, zero framework)
 
-`Reveal.astro` + ~15 righe di JS vanilla con `IntersectionObserver`: fade/slide-in leggeri
-allo scroll; transizioni morbide su hover via CSS. Rispetta `prefers-reduced-motion`.
-Nessun JS di libreria.
+- `Reveal.astro` + ~15 righe di JS vanilla con `IntersectionObserver`: fade/slide-in leggeri
+  allo scroll; transizioni morbide su hover via CSS. Rispetta `prefers-reduced-motion`.
+- `HeroRotator.astro` — una **singola parola reale** che ruota lenta nel titolo hero
+  (es. *comuni · PA · territori*), in **vanilla JS**. Altezza fissa per evitare layout shift;
+  fallback **statico** con `prefers-reduced-motion`. NON parole generiche tipo "amazing"
+  (novelty vietata dal brief).
+- `Carousel.astro` — carousel orizzontale **CSS scroll-snap** + ~30 righe JS (frecce + dot +
+  drag), niente librerie React/embla. Card con immagine + **scrim** funzionale per leggibilità
+  del testo (uso legittimo del gradiente: contrasto, non decorazione). Usato per i **casi d'uso /
+  comuni clienti**.
+- `GridAccent.astro` — **blueprint grid statica** (SVG/CSS) a opacità bassissima in tinta
+  neutra/`--brand-tint`, su **una sola** fascia (es. Chi siamo o footer). Statica, niente
+  animazione/mesh navy/ASCII: legge come "ingegneria/heritage tecnico", non come effetto spaziale.
+
+Tutto rispetta `prefers-reduced-motion`. Nessun JS di libreria; tutto vanilla per preservare
+lo zero-JS e Lighthouse alto. *(Origine: tre componenti di riferimento React/WebGL forniti dal
+committente, reinterpretati per rispettare brief + accessibilità; lo shader WebGL animato è
+escluso e conservato per un futuro progetto tech/AI — vedi §12.)*
 
 ## 7. Le 6 pagine (IT + EN, placeholder strutturati)
 
-1. **Home** — hero con posizionamento, sintesi dei due prodotti, accenno storia/AI, CTA contatti.
+1. **Home** — hero con posizionamento (`HeroRotator`: titolo con singola parola rotante sobria),
+   sintesi dei due prodotti, fascia **casi d'uso/comuni** in `Carousel`, accenno storia/AI,
+   CTA contatti.
 2. **Chi siamo** — heritage 25 anni (pionieri, rivoluzioni tecnologiche attraversate),
    tecnologie usate, approccio AI. È **qui** che si racconta l'heritage, non nella grafica.
 3. **Prodotto 1** (`[NOME_PRODOTTO_1]`) — cos'è, a chi serve, casi d'uso.
@@ -135,10 +153,17 @@ Immagini: segnaposto SVG con proporzioni corrette (niente immagini pesanti casua
 
 ## 8. Form contatti / candidature
 
-- Campi: **nome**, **email**, **tipo richiesta** (`Informazioni` | `Candidatura`), **messaggio**
-  (+ campo opzionale allegato/link CV mostrato quando tipo = Candidatura, via progressive enhancement).
-- Validazione **HTML5 nativa** (required, type=email).
+- **Tipo richiesta in cima** al form come **radio in `<fieldset>`/`<legend>`** (`Informazioni` |
+  `Candidatura`): determina il resto del form, quindi guida il flusso (revisione coi principi:
+  gerarchia + divulgazione progressiva).
+- Campi: **nome**, **email**, **messaggio** (+ campo opzionale allegato/link CV mostrato
+  **solo** quando tipo = Candidatura, via progressive enhancement; visibile come fallback senza JS).
+- Validazione **HTML5 nativa** (required, type=email). Errori segnalati con **testo + icona**,
+  non solo colore (accessibilità — rilevante per gli obblighi della PA), via `aria-describedby`.
+- Layout **colonna singola**, label esplicite `<label>` (non solo placeholder), focus visibile,
+  ordine di tab logico, tap target ≥44px.
 - `action` = `PUBLIC_FORMSPREE_ENDPOINT` letto da `.env` (in `.env.example` con placeholder).
+- Una sola azione primaria ad alto contrasto (**Invia**); nessuna azione secondaria in competizione.
 - Nessun prezzo/preventivo. Honeypot anti-spam.
 
 ## 9. Layer SEO (by design)
@@ -184,7 +209,13 @@ Immagini: segnaposto SVG con proporzioni corrette (niente immagini pesanti casua
 - E-commerce, prezzi, preventivi, prenotazioni, area riservata.
 - CMS / content collections (dizionari TS sufficienti per 6 pagine + aggiornamenti rari).
 - `llms.txt`, blog, multi-currency.
-- Refinement visivo definitivo (sarà una fase successiva, con la skill `ui-ux-pro-max`).
+- **Background shader WebGL animato** (mesh gradient navy + griglia animata + ASCII + dither):
+  escluso perché contraddice il brief (gradiente/effetto spaziale/blu a tappeto) e penalizza
+  CWV/accessibilità. Componente di riferimento conservato per un futuro progetto tech/AI.
+- React / framer-motion / shadcn-embla: non introdotti; gli effetti voluti (hero rotante,
+  carousel) sono reimplementati in vanilla per preservare lo zero-JS.
+- Refinement visivo definitivo (sarà una fase successiva, con le skill `ui-ux-pro-max` +
+  `ui-design-principles`).
 
 ## 13. Output atteso della sessione di implementazione
 
