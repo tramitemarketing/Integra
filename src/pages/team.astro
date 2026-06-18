@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import TeamCard from '../components/TeamCard.astro';
+import { useTranslations } from '../i18n/utils';
+const lang = 'it' as const;
+const t = useTranslations(lang);
+---
+<BaseLayout title={t.meta.team.title} description={t.meta.team.description} pageKey="team">
+  <Section>
+    <h1>{t.nav.team}</h1>
+    <p class="lead">{t.team.lead}</p>
+    <div class="grid-team">
+      {t.team.members.map((m) => <TeamCard member={m} />)}
+    </div>
+  </Section>
+</BaseLayout>
+<style>
+  .lead { font-size: var(--fs-500); color: var(--text-muted); margin-block: var(--space-4) var(--space-12); }
+  .grid-team { display: grid; gap: var(--space-12) var(--space-6); grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+</style>
