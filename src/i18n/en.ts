@@ -30,8 +30,8 @@ export const en: Dictionary = {
     historyBody: 'We follow the full system life cycle: design, build, operation and maintenance. [TO WRITE: the 25-year story, milestones and technological evolutions]',
     techTitle: 'Areas we work in',
     tech: [
-      { name: 'Safety & security', desc: 'Integrated systems for the safety of people, places and infrastructure.', icon: 'shield' },
       { name: 'Video surveillance & remote control', desc: 'Remote supervision and control of video surveillance systems.', icon: 'video' },
+      { name: 'Safety & security', desc: 'Integrated systems for the safety of people, places and infrastructure.', icon: 'shield' },
       { name: 'Technological systems', desc: 'Management and remote control of technological plants.', icon: 'cpu' },
       { name: 'Weather & environment monitoring', desc: 'Real-time monitoring of weather and environmental data.', icon: 'cloud' },
       { name: 'Traffic & mobility', desc: 'Solutions for traffic control and urban mobility.', icon: 'route' },

@@ -44,10 +44,10 @@ const iconFor = (key: string) => icons[key] ?? fallback;
   /* bento on desktop: fills two rows — rectangles + squares */
   @media (min-width: 880px) {
     .ambiti { grid-template-columns: repeat(4, 1fr); }
-    .ambito:nth-child(1) { grid-column: span 2; }  /* rectangle */
+    .ambito:nth-child(2) { grid-column: span 2; }  /* rectangle — centred in row 1 */
     .ambito:nth-child(4) { grid-column: span 2; }  /* rectangle */
     .ambito:nth-child(5) { grid-column: span 2; }  /* rectangle */
-    /* nth-child(2) and (3) stay span 1 → squares */
+    /* nth-child(1) and (3) stay span 1 → squares */
   }
 
   .ambito {

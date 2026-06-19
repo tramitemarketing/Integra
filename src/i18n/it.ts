@@ -30,8 +30,8 @@ export const it: Dictionary = {
     historyBody: "Seguiamo l'intero ciclo di vita dei sistemi: progettazione, realizzazione, conduzione e manutenzione. [DA SCRIVERE: la storia dei 25 anni, le tappe e le evoluzioni tecnologiche attraversate]",
     techTitle: 'Ambiti di intervento',
     tech: [
-      { name: 'Safety & security', desc: 'Sistemi integrati per la sicurezza di persone, luoghi e infrastrutture.', icon: 'shield' },
       { name: 'Videosorveglianza e telecontrollo', desc: 'Supervisione e controllo da remoto degli impianti di videosorveglianza.', icon: 'video' },
+      { name: 'Safety & security', desc: 'Sistemi integrati per la sicurezza di persone, luoghi e infrastrutture.', icon: 'shield' },
       { name: 'Sistemi tecnologici', desc: 'Gestione e telecontrollo degli impianti tecnologici.', icon: 'cpu' },
       { name: 'Controllo meteo-ambientale', desc: 'Monitoraggio in tempo reale di parametri meteo e ambientali.', icon: 'cloud' },
       { name: 'Traffico e mobilità', desc: 'Soluzioni per il controllo del traffico e la mobilità urbana.', icon: 'route' },
