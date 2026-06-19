@@ -1,8 +1,9 @@
 ---
 // src/components/AmbitiGrid.astro
-// Renders the "ambiti" as a grid of icon cards. Icons map by index to the items
-// order (videosorveglianza, safety, sistemi tecnologici, meteo-ambiente, traffico).
-interface Props { items: string[] }
+// "Ambiti" as a bento mosaic of icon cards (icon + name + short description).
+// Icons map by index to the items order; layout spans assume ~5 items.
+interface Ambito { name: string; desc: string }
+interface Props { items: Ambito[] }
 const { items } = Astro.props;
 
 const svg = (inner: string) =>
@@ -12,16 +13,19 @@ const icons = [
   svg('<path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2"/>'),        // video / telecontrollo
   svg('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/>'),                                // safety & security
   svg('<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9"/><path d="M15 2v2M9 2v2M15 20v2M9 20v2M2 15h2M2 9h2M20 15h2M20 9h2"/>'), // sistemi tecnologici
-  svg('<path d="M17.5 19a4.5 4.5 0 0 0 0-9h-1.8A6 6 0 1 0 6 18.7"/><path d="M6 19h11.5"/>'),     // meteo-ambiente (cloud)
-  svg('<circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M12 19h4.5a2.5 2.5 0 0 0 0-5h-9a2.5 2.5 0 0 1 0-5H12"/>'), // traffico e mobilità (route)
+  svg('<path d="M17.5 19a4.5 4.5 0 0 0 0-9h-1.8A6 6 0 1 0 6 18.7"/><path d="M6 19h11.5"/>'),     // meteo-ambiente
+  svg('<circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M12 19h4.5a2.5 2.5 0 0 0 0-5h-9a2.5 2.5 0 0 1 0-5H12"/>'), // traffico e mobilità
 ];
 const fallback = svg('<circle cx="12" cy="12" r="4"/>');
 ---
 <ul class="ambiti">
-  {items.map((name, i) => (
+  {items.map((a, i) => (
     <li class="ambito">
       <span class="ambito__icon" aria-hidden="true" set:html={icons[i] ?? fallback}></span>
-      <span class="ambito__name">{name}</span>
+      <div class="ambito__text">
+        <span class="ambito__name">{a.name}</span>
+        <p class="ambito__desc">{a.desc}</p>
+      </div>
     </li>
   ))}
 </ul>
@@ -30,20 +34,36 @@ const fallback = svg('<circle cx="12" cy="12" r="4"/>');
   .ambiti {
     list-style: none; padding: 0; margin-top: var(--space-8);
     display: grid; gap: var(--space-4);
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 560px) {
+    .ambiti { grid-template-columns: repeat(2, 1fr); }
+  }
+  /* bento mosaic on desktop: two wide tiles on top, three narrower below */
+  @media (min-width: 880px) {
+    .ambiti { grid-template-columns: repeat(6, 1fr); }
+    .ambito:nth-child(1) { grid-column: span 3; }
+    .ambito:nth-child(2) { grid-column: span 3; }
+    .ambito:nth-child(3) { grid-column: span 2; }
+    .ambito:nth-child(4) { grid-column: span 2; }
+    .ambito:nth-child(5) { grid-column: span 2; }
   }
   .ambito {
-    display: flex; align-items: center; gap: var(--space-4);
+    display: flex; flex-direction: column; gap: var(--space-3);
     padding: var(--space-6);
     background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
-    transition: border-color var(--transition), transform var(--transition);
+    transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
   }
-  .ambito:hover { border-color: var(--brand-light); transform: translateY(-2px); }
+  .ambito:hover {
+    border-color: var(--brand-light); transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(21, 22, 28, 0.06);
+  }
   .ambito__icon {
-    flex: 0 0 auto; width: 44px; height: 44px;
+    flex: 0 0 auto; width: 46px; height: 46px;
     display: grid; place-items: center;
     background: var(--brand-tint); color: var(--brand); border-radius: var(--radius-sm);
   }
-  .ambito__icon :global(svg) { width: 22px; height: 22px; }
-  .ambito__name { font-weight: 600; font-size: var(--fs-400); }
+  .ambito__icon :global(svg) { width: 23px; height: 23px; }
+  .ambito__name { font-weight: 600; font-size: var(--fs-500); }
+  .ambito__desc { color: var(--text-muted); font-size: var(--fs-300); margin: 0; max-width: 42ch; }
 </style>

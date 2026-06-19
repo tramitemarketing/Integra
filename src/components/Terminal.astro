@@ -85,13 +85,13 @@ const { steps, title = 'workflow', label } = Astro.props;
       s.line.style.visibility = 'visible';
       if (s.isCmd && s.typed) {
         s.typed.classList.add('is-typing');
-        typeText(s.typed, s.text, 38, () => {
+        typeText(s.typed, s.text, 68, () => {
           s.typed!.classList.remove('is-typing');
-          setTimeout(() => runSteps(steps, i + 1), 480);
+          setTimeout(() => runSteps(steps, i + 1), 720);
         });
       } else {
         s.line.style.opacity = '1';
-        setTimeout(() => runSteps(steps, i + 1), 240);
+        setTimeout(() => runSteps(steps, i + 1), 420);
       }
     };
 
