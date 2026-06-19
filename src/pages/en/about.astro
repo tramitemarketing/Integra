@@ -4,6 +4,7 @@ import Section from '../../components/Section.astro';
 import Reveal from '../../components/Reveal.astro';
 import SectionCode from '../../components/SectionCode.astro';
 import Terminal from '../../components/Terminal.astro';
+import AmbitiGrid from '../../components/AmbitiGrid.astro';
 import { useTranslations } from '../../i18n/utils';
 import { routeMap } from '../../i18n/routes';
 const lang = 'en' as const;
@@ -34,7 +35,7 @@ const aiSteps = [
   <Section alt>
     <SectionCode code="B3" />
     <Reveal as="h2">{t.about.techTitle}</Reveal>
-    <ul class="tags">{t.about.tech.map((x) => <li>{x}</li>)}</ul>
+    <AmbitiGrid items={t.about.tech} />
   </Section>
   <Section>
     <SectionCode code="B4" />
@@ -50,8 +51,6 @@ const aiSteps = [
 <style>
   .hero-band { padding-block: var(--space-24); background: var(--bg-alt); }
   .lead { font-size: var(--fs-500); color: var(--text-muted); margin-top: var(--space-4); }
-  .tags { display: flex; flex-wrap: wrap; gap: var(--space-3); list-style: none; padding: 0; margin-top: var(--space-6); }
-  .tags li { border: 1px solid var(--border); border-radius: 999px; padding: .4rem 1rem; font-size: var(--fs-300); }
   .ai-grid { display: grid; gap: var(--space-8); align-items: center; }
   @media (min-width: 880px) {
     .ai-grid { grid-template-columns: 1.25fr 0.75fr; gap: var(--space-12); }
