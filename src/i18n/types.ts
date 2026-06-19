@@ -38,7 +38,7 @@ export interface Dictionary {
     historyBody: string;
     yearsLabel: string;
   };
-  about: { lead: string; historyTitle: string; historyBody: string; techTitle: string; tech: { name: string; desc: string }[]; aiTitle: string; aiBody: string };
+  about: { lead: string; historyTitle: string; historyBody: string; techTitle: string; tech: { name: string; desc: string; icon: string }[]; aiTitle: string; aiBody: string };
   team: { lead: string; members: TeamMember[] };
   contact: {
     lead: string;
