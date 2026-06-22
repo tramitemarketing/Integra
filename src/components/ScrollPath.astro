@@ -14,7 +14,9 @@
   .scrollpath {
     position: fixed; left: clamp(1.25rem, calc((100vw - 72rem) / 2 - 1.6rem), 4rem);
     top: 96px; bottom: 72px; width: 2px; z-index: 5; pointer-events: none;
+    display: none; /* shown only on pages that have checkpoint nodes */
   }
+  .scrollpath.has-nodes { display: block; }
   .scrollpath__track { position: absolute; inset: 0; background: var(--border); border-radius: 2px; }
   .scrollpath__fill {
     position: absolute; top: 0; left: 0; width: 100%; height: 0;
@@ -36,7 +38,7 @@
     box-shadow: 0 0 0 5px color-mix(in srgb, var(--brand) 14%, transparent);
   }
   .scrollpath :global(.scrollpath__node.is-active svg) { opacity: 1; }
-  @media (max-width: 1180px) { .scrollpath { display: none; } }
+  @media (max-width: 1180px) { .scrollpath.has-nodes { display: none; } }
 </style>
 
 <script>
@@ -47,12 +49,17 @@
     cases: svg('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>'),
     history: svg('<circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/>'),
     process: svg('<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>'),
+    areas: svg('<path d="M12.8 2.2a2 2 0 0 0-1.6 0L2.6 6.1a1 1 0 0 0 0 1.8l8.6 3.9a2 2 0 0 0 1.6 0l8.6-3.9a1 1 0 0 0 0-1.8Z"/><path d="m22 17.7-9.2 4.1a2 2 0 0 1-1.6 0L2 17.7"/><path d="m22 12.7-9.2 4.1a2 2 0 0 1-1.6 0L2 12.7"/>'),
+    ai: svg('<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9"/><path d="M15 2v2M9 2v2M15 20v2M9 20v2M2 15h2M2 9h2M20 15h2M20 9h2"/>'),
+    audience: svg('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'),
+    usecases: svg('<path d="M11 12H3"/><path d="M16 6H3"/><path d="M16 18H3"/><path d="m18 9 2 2 4-4"/>'),
   };
   const fallback = svg('<circle cx="12" cy="12" r="3"/>');
 
   const root = document.querySelector<HTMLElement>('.scrollpath');
   const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-path-node]'));
   if (root && sections.length) {
+    root.classList.add('has-nodes');
     const fill = root.querySelector<HTMLElement>('.scrollpath__fill')!;
     const nodesWrap = root.querySelector<HTMLElement>('.scrollpath__nodes')!;
 

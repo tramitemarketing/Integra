@@ -28,19 +28,19 @@ const jsonLd = {
 const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: product.name }];
 ---
 <BaseLayout title={t.meta.product(product.name).title} description={t.meta.product(product.name).description} jsonLd={jsonLd} breadcrumb={crumbs}>
-  <Section>
+  <Section data-path-node="products">
     <SectionCode code="C1" />
     <h1>{product.name}</h1>
     <p class="lead">{product.tagline}</p>
     <p>{product.what}</p>
     <p><Button href={routeMap.contact[lang]}>{t.cta.contact}</Button></p>
   </Section>
-  <Section alt>
+  <Section alt data-path-node="audience">
     <SectionCode code="C2" />
     <Reveal as="h2">Who it is for</Reveal>
     <p>{product.audience}</p>
   </Section>
-  <Section>
+  <Section data-path-node="usecases">
     <SectionCode code="C3" />
     <Reveal as="h2">Use cases</Reveal>
     <ul>{product.useCases.map((u) => <li>{u}</li>)}</ul>
