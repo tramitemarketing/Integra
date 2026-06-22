@@ -30,6 +30,7 @@ export const en: Dictionary = {
       { name: 'Operation', desc: 'Operational management and continuous supervision.' },
       { name: 'Maintenance', desc: 'Ongoing support and maintenance.' },
     ],
+    clientsTitle: 'They chose us',
   },
   about: {
     lead: 'For 25 years Integra has designed, built and managed information and telematic systems for the supervision and remote control of video surveillance, safety & security, technological plants, weather-environment monitoring, traffic and mobility.',

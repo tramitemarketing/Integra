@@ -30,6 +30,7 @@ export const it: Dictionary = {
       { name: 'Conduzione', desc: 'Gestione operativa e supervisione continua.' },
       { name: 'Manutenzione', desc: 'Assistenza e manutenzione nel tempo.' },
     ],
+    clientsTitle: 'Ci hanno scelto',
   },
   about: {
     lead: "Da 25 anni Integra progetta, realizza e gestisce sistemi informativi e telematici per la supervisione e il telecontrollo di videosorveglianza, sicurezza (safety & security), impianti tecnologici, controllo meteo-ambientale, traffico e mobilità.",

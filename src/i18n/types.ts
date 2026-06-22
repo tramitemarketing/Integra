@@ -39,6 +39,7 @@ export interface Dictionary {
     yearsLabel: string;
     processTitle: string;
     process: { name: string; desc: string }[];
+    clientsTitle: string;
   };
   about: { lead: string; historyTitle: string; historyBody: string; techTitle: string; tech: { name: string; desc: string; icon: string }[]; aiTitle: string; aiBody: string };
   team: { lead: string; members: TeamMember[] };
