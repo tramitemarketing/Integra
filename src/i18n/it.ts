@@ -23,6 +23,13 @@ export const it: Dictionary = {
     historyTitle: 'E ancora pionieri',
     historyBody: "Abbiamo attraversato ogni rivoluzione tecnologica del settore. Oggi usiamo l’AI nello sviluppo per fare prima e meglio. [DA SCRIVERE]",
     yearsLabel: 'anni di esperienza',
+    processTitle: 'Come lavoriamo',
+    process: [
+      { name: 'Progettazione', desc: 'Analisi dei requisiti e progetto del sistema.' },
+      { name: 'Realizzazione', desc: 'Sviluppo e installazione degli impianti.' },
+      { name: 'Conduzione', desc: 'Gestione operativa e supervisione continua.' },
+      { name: 'Manutenzione', desc: 'Assistenza e manutenzione nel tempo.' },
+    ],
   },
   about: {
     lead: "Da 25 anni Integra progetta, realizza e gestisce sistemi informativi e telematici per la supervisione e il telecontrollo di videosorveglianza, sicurezza (safety & security), impianti tecnologici, controllo meteo-ambientale, traffico e mobilità.",

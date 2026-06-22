@@ -1,0 +1,53 @@
+---
+// src/components/ScrollPath.astro
+// A vertical "path" in the left margin that fills with brand colour as the page
+// scrolls — a bold-but-sober progress spine. Desktop only; respects reduced-motion.
+---
+<div class="scrollpath" aria-hidden="true">
+  <span class="scrollpath__track"></span>
+  <span class="scrollpath__fill"></span>
+  <span class="scrollpath__dot"></span>
+</div>
+
+<style>
+  .scrollpath {
+    position: fixed; left: clamp(1.25rem, calc((100vw - 72rem) / 2 - 1.6rem), 4rem);
+    top: 92px; bottom: 64px; width: 2px; z-index: 5; pointer-events: none;
+  }
+  .scrollpath__track {
+    position: absolute; inset: 0; background: var(--border); border-radius: 2px;
+  }
+  .scrollpath__fill {
+    position: absolute; top: 0; left: 0; width: 100%; height: 0;
+    background: var(--brand); border-radius: 2px;
+  }
+  .scrollpath__dot {
+    position: absolute; left: 50%; top: 0; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--brand); transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent);
+  }
+  /* only where there's margin to spare */
+  @media (max-width: 1180px) { .scrollpath { display: none; } }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.scrollpath');
+  if (root) {
+    const fill = root.querySelector<HTMLElement>('.scrollpath__fill')!;
+    const dot = root.querySelector<HTMLElement>('.scrollpath__dot')!;
+    let ticking = false;
+    const update = () => {
+      const el = document.documentElement;
+      const max = el.scrollHeight - el.clientHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, el.scrollTop / max)) : 0;
+      fill.style.height = p * 100 + '%';
+      dot.style.top = p * 100 + '%';
+      ticking = false;
+    };
+    update();
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+  }
+</script>

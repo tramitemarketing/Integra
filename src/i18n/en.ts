@@ -23,6 +23,13 @@ export const en: Dictionary = {
     historyTitle: 'Still pioneers',
     historyBody: 'We have lived through every technological revolution in the field. Today we use AI in development to ship faster and better. [TO WRITE]',
     yearsLabel: 'years of experience',
+    processTitle: 'How we work',
+    process: [
+      { name: 'Design', desc: 'Requirements analysis and system design.' },
+      { name: 'Build', desc: 'Development and installation of the systems.' },
+      { name: 'Operation', desc: 'Operational management and continuous supervision.' },
+      { name: 'Maintenance', desc: 'Ongoing support and maintenance.' },
+    ],
   },
   about: {
     lead: 'For 25 years Integra has designed, built and managed information and telematic systems for the supervision and remote control of video surveillance, safety & security, technological plants, weather-environment monitoring, traffic and mobility.',

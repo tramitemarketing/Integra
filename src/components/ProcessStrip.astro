@@ -1,0 +1,39 @@
+---
+// src/components/ProcessStrip.astro
+// The life-cycle as 4 numbered steps connected by a blue path.
+interface Step { name: string; desc: string }
+interface Props { steps: Step[] }
+const { steps } = Astro.props;
+---
+<ol class="process">
+  {steps.map((s, i) => (
+    <li class="process__step">
+      <span class="process__num">{String(i + 1).padStart(2, '0')}</span>
+      <span class="process__name">{s.name}</span>
+      <p class="process__desc">{s.desc}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .process {
+    list-style: none; padding: 0; margin-top: var(--space-8); position: relative;
+    display: grid; gap: var(--space-8); grid-template-columns: 1fr;
+  }
+  @media (min-width: 760px) {
+    .process { grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+    /* the blue path connecting the step numbers */
+    .process::before {
+      content: ''; position: absolute; top: 22px; left: 10%; right: 10%; height: 2px;
+      background: var(--brand-tint); z-index: 0;
+    }
+  }
+  .process__step { position: relative; z-index: 1; }
+  .process__num {
+    display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+    background: var(--brand); color: #fff;
+    font-family: var(--font-display); font-weight: 600; font-size: var(--fs-400);
+  }
+  .process__name { display: block; font-weight: 600; margin-top: var(--space-3); }
+  .process__desc { color: var(--text-muted); font-size: var(--fs-300); margin-top: var(--space-2); }
+</style>

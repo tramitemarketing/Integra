@@ -7,6 +7,7 @@ import Carousel from '../../components/Carousel.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import Button from '../../components/Button.astro';
 import CountUp from '../../components/CountUp.astro';
+import ProcessStrip from '../../components/ProcessStrip.astro';
 import SectionCode from '../../components/SectionCode.astro';
 import { useTranslations } from '../../i18n/utils';
 import { routeMap, productBase } from '../../i18n/routes';
@@ -53,6 +54,11 @@ const t = useTranslations(lang);
         <p>{t.home.historyBody}</p>
       </div>
     </div>
+  </Section>
+  <Section>
+    <SectionCode code="A5" />
+    <Reveal as="h2">{t.home.processTitle}</Reveal>
+    <ProcessStrip steps={t.home.process} />
   </Section>
 </BaseLayout>
 <style>
