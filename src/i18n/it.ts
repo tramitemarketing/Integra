@@ -15,7 +15,7 @@ export const it: Dictionary = {
   home: {
     heroPre: 'Sistemi per',
     heroRotating: ['i comuni', 'le città', 'i territori', 'la PA'],
-    heroPost: 'da 25 anni.',
+    heroPost: 'da 25 anni',
     heroLead: "Da 25 anni progettiamo, realizziamo e gestiamo sistemi di supervisione e telecontrollo: videosorveglianza, sicurezza, traffico e ambiente — dall'idea alla manutenzione.",
     productsTitle: 'I nostri prodotti',
     casesTitle: 'Dove lavoriamo',

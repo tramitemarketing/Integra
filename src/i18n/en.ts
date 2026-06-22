@@ -15,7 +15,7 @@ export const en: Dictionary = {
   home: {
     heroPre: 'Systems for',
     heroRotating: ['municipalities', 'cities', 'regions', 'public bodies'],
-    heroPost: 'for 25 years.',
+    heroPost: 'for 25 years',
     heroLead: 'For 25 years we have designed, built and run supervision and remote-control systems: video surveillance, security, traffic and environment — from concept to maintenance.',
     productsTitle: 'Our products',
     casesTitle: 'Where we work',
