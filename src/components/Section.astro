@@ -1,9 +1,9 @@
 ---
 // src/components/Section.astro
-interface Props { alt?: boolean; class?: string; }
-const { alt = false, class: cls = '' } = Astro.props;
+interface Props { alt?: boolean; class?: string; [key: string]: unknown; }
+const { alt = false, class: cls = '', ...rest } = Astro.props;
 ---
-<section class={`section ${alt ? 'section--alt' : ''} ${cls}`}>
+<section class={`section ${alt ? 'section--alt' : ''} ${cls}`} {...rest}>
   <div class="container"><slot /></div>
 </section>
 <style>

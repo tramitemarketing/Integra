@@ -26,7 +26,7 @@ const t = useTranslations(lang);
       </div>
     </div>
   </section>
-  <Section alt>
+  <Section alt data-path-node="products">
     <SectionCode code="A2" />
     <Reveal as="h2">{t.home.productsTitle}</Reveal>
     <div class="grid-2">
@@ -36,13 +36,13 @@ const t = useTranslations(lang);
       ))}
     </div>
   </Section>
-  <Section>
+  <Section data-path-node="cases">
     <SectionCode code="A3" />
     <Reveal as="h2">{t.home.casesTitle}</Reveal>
     <p class="lead">{t.home.casesLead}</p>
     <Carousel items={t.cases} label={t.home.casesTitle} />
   </Section>
-  <Section alt>
+  <Section alt data-path-node="history">
     <SectionCode code="A4" />
     <div class="history">
       <div class="history__stat">
@@ -55,7 +55,7 @@ const t = useTranslations(lang);
       </div>
     </div>
   </Section>
-  <Section>
+  <Section data-path-node="process">
     <SectionCode code="A5" />
     <Reveal as="h2">{t.home.processTitle}</Reveal>
     <ProcessStrip steps={t.home.process} />
