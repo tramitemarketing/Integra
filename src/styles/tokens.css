@@ -1,11 +1,11 @@
 /* src/styles/tokens.css
    SINGLE SOURCE OF TRUTH. Changing the brand blue = one line below. */
 :root {
-  /* === BRAND — PROVISIONAL, replace with the exact blue from the logo SVG === */
-  --brand: #2E2ECC;        /* primary blue-violet (estimate) */
-  --brand-light: #5454E6;  /* lighter hue — ALL hover/active states (never darken on hover) */
-  --brand-dark: #1E1E8A;   /* same hue, darkened — dark sections only (NOT hover) */
-  --brand-tint: #EDEDFB;   /* same hue, lightened — delicate fills */
+  /* === BRAND — exact blue from the Integra logo SVG === */
+  --brand: #113ceb;        /* logo blue */
+  --brand-light: #3f63f5;  /* lighter hue — ALL hover/active states (never darken on hover) */
+  --brand-dark: #0e2fbf;   /* same hue, darkened — dark sections only (NOT hover) */
+  --brand-tint: #e8edfe;   /* same hue, lightened — delicate fills */
 
   /* === NEUTRALS (the canvas) === */
   --bg: #FFFFFF;

@@ -9,7 +9,7 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="container site-footer__inner">
     <div>
-      <p class="site-footer__brand">INTEGRA</p>
+      <p class="site-footer__brand"><img src="/logo.svg" alt="Integra" width="110" height="31" /></p>
       <p class="muted">{t.footer.address}</p>
       <p><a class="link" href={`mailto:${t.footer.email}`}>{t.footer.email}</a></p>
       <p class="site-footer__social">
@@ -34,7 +34,7 @@ const year = new Date().getFullYear();
 <style>
   .site-footer { border-top: 1px solid var(--border); padding-block: var(--space-12) var(--space-8); margin-top: var(--space-24); }
   .site-footer__inner { display: flex; justify-content: space-between; gap: var(--space-8); flex-wrap: wrap; }
-  .site-footer__brand { font-family: var(--font-display); font-weight: 600; }
+  .site-footer__brand img { height: 31px; width: auto; display: block; }
   .site-footer__nav { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); }
   .site-footer__nav a { position: relative; display: inline-block; text-decoration: none; color: var(--text-muted); transition: color var(--transition); }
   .site-footer__nav a::after {
