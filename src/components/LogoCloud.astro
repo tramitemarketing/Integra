@@ -1,21 +1,25 @@
 ---
 // src/components/LogoCloud.astro
-// "Ci hanno scelto" client logo strip. Placeholder boxes for now — replace each
-// with a real <img src="/clients/<name>.svg" alt="<name>" /> when logos arrive.
+// "Ci hanno scelto" client logos as a continuous scrolling marquee.
+// Placeholder chips for now — replace each with <img src="/clients/<name>.svg" .../>.
+// The set is rendered twice so the loop is seamless.
 interface Props { title: string; count?: number }
-const { title, count = 6 } = Astro.props;
+const { title, count = 8 } = Astro.props;
 const landmark = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`;
+const chips = Array.from({ length: count });
 ---
 <div class="logos">
   <p class="logos__title">{title}</p>
-  <ul class="logos__row">
-    {Array.from({ length: count }).map(() => (
-      <li class="logos__item">
-        <span class="logos__icon" aria-hidden="true" set:html={landmark}></span>
-        <span class="logos__txt">[logo]</span>
-      </li>
-    ))}
-  </ul>
+  <div class="marquee" role="img" aria-label={title}>
+    <div class="marquee__track">
+      {chips.map(() => (
+        <span class="logos__item"><span class="logos__icon" set:html={landmark}></span><span class="logos__txt">[logo]</span></span>
+      ))}
+      {chips.map(() => (
+        <span class="logos__item" aria-hidden="true"><span class="logos__icon" set:html={landmark}></span><span class="logos__txt">[logo]</span></span>
+      ))}
+    </div>
+  </div>
 </div>
 
 <style>
@@ -23,12 +27,24 @@ const landmark = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
     text-align: center; color: var(--text-muted);
     font-size: var(--fs-300); letter-spacing: 0.08em; text-transform: uppercase;
   }
-  .logos__row {
-    list-style: none; padding: 0; margin: var(--space-8) 0 0;
-    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-    gap: var(--space-6) var(--space-8);
+  .marquee {
+    margin-top: var(--space-8); overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
+  .marquee__track {
+    display: flex; width: max-content; gap: var(--space-8);
+    animation: logos-marquee 34s linear infinite;
+  }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+  @keyframes logos-marquee { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track { animation: none; }
+    .marquee { -webkit-mask-image: none; mask-image: none; }
+  }
+
   .logos__item {
+    flex: 0 0 auto;
     display: inline-flex; align-items: center; gap: var(--space-3);
     width: 150px; height: 60px; justify-content: center;
     border: 1px dashed var(--border); border-radius: var(--radius-sm);
