@@ -13,7 +13,12 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <p class="tcard__bio">{member.bio}</p>
 </article>
 <style>
-  .tcard { text-align: center; }
+  .tcard {
+    text-align: center; padding: var(--space-8) var(--space-6);
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg);
+    transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  }
+  .tcard:hover { border-color: var(--brand-light); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(21, 22, 28, 0.07); }
   .tcard img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-inline: auto; background: var(--bg-alt); }
   .tcard__name { font-size: var(--fs-500); margin-top: var(--space-3); }
   .tcard__role { color: var(--brand); font-weight: 600; font-size: var(--fs-300); }
