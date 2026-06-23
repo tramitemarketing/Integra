@@ -45,7 +45,11 @@ const { pre, words, post, align = 'start' } = Astro.props;
   .hero-rotator__word {
     grid-area: 1 / 1;
     align-self: start;
-    color: var(--brand);
+    color: var(--brand); /* fallback where background-clip:text is unsupported */
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     transition: opacity 400ms ease, transform 400ms ease;
   }
   .hero-rotator__word.is-out { opacity: 0; transform: translateY(-0.6em); }

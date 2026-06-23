@@ -7,12 +7,25 @@
   --brand-dark: #0e2fbf;   /* same hue, darkened — dark sections only (NOT hover) */
   --brand-tint: #e8edfe;   /* same hue, lightened — delicate fills */
 
+  /* === ACCENT — cyan, analogous to the brand blue.
+     Adds colour/depth without a second "loud" hue. NOT a second action colour:
+     cyan stays decorative (fills, bars, gradients); blue stays the clickable colour. === */
+  --accent: #06b6d4;       /* bright cyan — decorative fills, bars, gradient end. NEVER text on white (fails AA). */
+  --accent-light: #22d3ee; /* lighter — accent hover/active (never darken) */
+  --accent-ink: #0e7490;   /* cyan darkened enough to pass AA as text on white (~5.3:1) */
+  --accent-tint: #e0f7fb;  /* delicate cyan fill — section canvases, chips */
+
   /* === NEUTRALS (the canvas) === */
   --bg: #FFFFFF;
-  --bg-alt: #F6F7F9;
+  --bg-alt: #F1F5FB;       /* cool neutral (slightly bluer than a flat grey) */
+  --bg-tint: #eef3ff;      /* soft brand-blue canvas — alternate section background */
   --text: #15161C;
   --text-muted: #5B5E6B;
   --border: #E4E6EB;
+
+  /* === SIGNATURE GRADIENTS (blue → cyan) === */
+  --grad-brand: linear-gradient(115deg, var(--brand), var(--accent));      /* fills / bars / shapes */
+  --grad-text:  linear-gradient(115deg, var(--brand), var(--accent-ink));  /* AA-safe gradient TEXT only */
 
   /* === TYPOGRAPHY === */
   --font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;

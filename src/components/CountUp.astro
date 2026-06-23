@@ -13,7 +13,11 @@ const { value, suffix = '', duration = 1400, class: cls = '' } = Astro.props;
     font-size: var(--fs-900);
     font-weight: 600;
     line-height: 1;
-    color: var(--brand);
+    color: var(--brand); /* fallback where background-clip:text is unsupported */
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-variant-numeric: tabular-nums;
   }
 </style>

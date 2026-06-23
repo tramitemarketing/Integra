@@ -1,57 +1,60 @@
 ---
 // src/components/LogoCloud.astro
-// "Ci hanno scelto" client logos as a continuous scrolling marquee.
-// Placeholder chips for now — replace each with <img src="/clients/<name>.svg" .../>.
-// The set is rendered twice so the loop is seamless.
+// Client logos as a slim, full-width "news-ticker" bar: logos scroll edge to edge
+// in a seamless, never-pausing infinite loop. No heading — just the strip.
+// `title` is used only as the accessible label (the bar reads as one image).
+// Placeholder chips for now — replace each .ticker__item content with an SVG logo:
+//   <img src="/clients/<name>.svg" alt="" width="120" height="32" loading="lazy" />
+// The set is rendered twice so the loop is seamless (translateX(-50%)).
 interface Props { title: string; count?: number }
-const { title, count = 8 } = Astro.props;
+const { title, count = 10 } = Astro.props;
 const landmark = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`;
 const chips = Array.from({ length: count });
 ---
-<div class="logos">
-  <p class="logos__title">{title}</p>
-  <div class="marquee" role="img" aria-label={title}>
-    <div class="marquee__track">
-      {chips.map(() => (
-        <span class="logos__item"><span class="logos__icon" set:html={landmark}></span><span class="logos__txt">[logo]</span></span>
-      ))}
-      {chips.map(() => (
-        <span class="logos__item" aria-hidden="true"><span class="logos__icon" set:html={landmark}></span><span class="logos__txt">[logo]</span></span>
-      ))}
-    </div>
+<div class="ticker" role="img" aria-label={title}>
+  <div class="ticker__track">
+    {chips.map(() => (
+      <span class="ticker__item"><span class="ticker__icon" set:html={landmark}></span><span class="ticker__txt">[logo]</span></span>
+    ))}
+    {chips.map(() => (
+      <span class="ticker__item" aria-hidden="true"><span class="ticker__icon" set:html={landmark}></span><span class="ticker__txt">[logo]</span></span>
+    ))}
   </div>
 </div>
 
 <style>
-  .logos__title {
-    text-align: center; color: var(--text-muted);
-    font-size: var(--fs-300); letter-spacing: 0.08em; text-transform: uppercase;
+  /* Full-width band with a hairline top/bottom rule — reads as a ticker strip. */
+  .ticker {
+    overflow: hidden;
+    padding-block: var(--space-4);
+    border-block: 1px solid var(--border);
+    background: var(--bg);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   }
-  .marquee {
-    margin-top: var(--space-8); overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  .ticker__track {
+    display: flex; width: max-content; align-items: center; gap: var(--space-24);
+    animation: ticker-scroll 38s linear infinite;
+    /* deliberately NO hover pause — the strip never stops */
   }
-  .marquee__track {
-    display: flex; width: max-content; gap: var(--space-8);
-    animation: logos-marquee 34s linear infinite;
-  }
-  .marquee:hover .marquee__track { animation-play-state: paused; }
-  @keyframes logos-marquee { to { transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee__track { animation: none; }
-    .marquee { -webkit-mask-image: none; mask-image: none; }
-  }
+  @keyframes ticker-scroll { to { transform: translateX(-50%); } }
 
-  .logos__item {
+  .ticker__item {
     flex: 0 0 auto;
-    display: inline-flex; align-items: center; gap: var(--space-3);
-    width: 150px; height: 60px; justify-content: center;
-    border: 1px dashed var(--border); border-radius: var(--radius-sm);
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    height: 36px;
     color: var(--text-muted);
-    transition: border-color var(--transition), color var(--transition);
   }
-  .logos__item:hover { border-color: var(--brand-light); color: var(--brand); }
-  .logos__icon :global(svg) { width: 22px; height: 22px; display: block; }
-  .logos__txt { font-size: var(--fs-300); }
+  .ticker__icon :global(svg) { width: 26px; height: 26px; display: block; }
+  .ticker__txt { font-size: var(--fs-300); }
+
+  /* Accessibility: no motion → static, wrapped, centered (no duplicate set). */
+  @media (prefers-reduced-motion: reduce) {
+    .ticker { -webkit-mask-image: none; mask-image: none; }
+    .ticker__track {
+      animation: none; width: auto; flex-wrap: wrap; justify-content: center;
+      gap: var(--space-6) var(--space-8);
+    }
+    .ticker__item[aria-hidden] { display: none; }
+  }
 </style>

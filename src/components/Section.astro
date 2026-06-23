@@ -1,13 +1,19 @@
 ---
 // src/components/Section.astro
-interface Props { alt?: boolean; class?: string; [key: string]: unknown; }
-const { alt = false, class: cls = '', ...rest } = Astro.props;
+// `tone` sets the section's background canvas. `alt` is kept as a shorthand
+// for tone="alt" (back-compat). Tones alternate the page out of flat white.
+type Tone = 'default' | 'alt' | 'tint' | 'accent';
+interface Props { alt?: boolean; tone?: Tone; class?: string; [key: string]: unknown; }
+const { alt = false, tone, class: cls = '', ...rest } = Astro.props;
+const resolved: Tone = tone ?? (alt ? 'alt' : 'default');
 ---
-<section class={`section ${alt ? 'section--alt' : ''} ${cls}`} {...rest}>
+<section class={`section section--${resolved} ${cls}`} {...rest}>
   <div class="container"><slot /></div>
 </section>
 <style>
   .section { padding-block: var(--space-24); }
-  .section--alt { background: var(--bg-alt); }
+  .section--alt { background: var(--bg-alt); }       /* cool neutral */
+  .section--tint { background: var(--bg-tint); }      /* soft brand blue */
+  .section--accent { background: var(--accent-tint); }/* soft cyan */
   @media (max-width: 640px) { .section { padding-block: var(--space-16); } }
 </style>
