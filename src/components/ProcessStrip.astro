@@ -22,10 +22,14 @@ const { steps } = Astro.props;
   }
   @media (min-width: 760px) {
     .process { grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
-    /* the blue path connecting the step numbers */
-    .process::before {
-      content: ''; position: absolute; top: 22px; left: 10%; right: 10%; height: 2px;
-      background: var(--grad-brand); z-index: 0;
+    /* Connect each circle to the next: the segment runs from this circle's centre
+       to the next circle's centre (column width + gap), so it never overshoots
+       the first/last number. Sits behind the circles (z-index -1). */
+    .process__step:not(:last-child)::before {
+      content: ''; position: absolute; z-index: -1;
+      top: 22px; left: 22px;                              /* centre of the 44px circle */
+      width: calc(100% + var(--space-6)); height: 2px;    /* span to the next circle's centre */
+      background: var(--grad-brand);
     }
   }
   .process__step { position: relative; z-index: 1; }
