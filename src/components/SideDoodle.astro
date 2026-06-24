@@ -1,0 +1,83 @@
+---
+// src/components/SideDoodle.astro
+// Playful, on-brand decorative graphic for a section's side gutter.
+// Purely decorative: aria-hidden, pointer-events:none, desktop-only,
+// and motion is disabled under prefers-reduced-motion.
+interface Props { variant?: 'shapes' | 'tech'; side?: 'left' | 'right'; class?: string }
+const { variant = 'shapes', side = 'right', class: cls = '' } = Astro.props;
+---
+<div class={`doodle doodle--${side} doodle--${variant} ${cls}`} aria-hidden="true">
+  {variant === 'shapes' ? (
+    <svg viewBox="0 0 200 240" fill="none">
+      <circle class="dd dd-circle" cx="58" cy="52" r="24" />
+      <rect class="dd dd-square" x="116" y="34" width="52" height="52" rx="14" />
+      <path class="dd dd-tri" d="M52 172 L86 172 L69 138 Z" />
+      <path class="dd dd-plus" d="M150 150 V188 M131 169 H169" />
+      <path class="dd dd-wave" d="M18 110 q12 -16 24 0 q12 16 24 0" />
+      <circle class="dd-dot" cx="104" cy="214" r="8" />
+    </svg>
+  ) : (
+    <svg viewBox="0 0 200 240" fill="none">
+      <g class="dd-win">
+        <rect class="win-bg" x="30" y="72" width="140" height="96" rx="12" />
+        <line class="win-bar" x1="30" y1="98" x2="170" y2="98" />
+        <circle class="win-dot win-dot1" cx="46" cy="85" r="3.6" />
+        <circle class="win-dot win-dot2" cx="58" cy="85" r="3.6" />
+        <circle class="win-dot win-dot3" cx="70" cy="85" r="3.6" />
+        <line class="win-line" x1="48" y1="120" x2="128" y2="120" />
+        <line class="win-line win-line--short" x1="48" y1="138" x2="96" y2="138" />
+      </g>
+      <path class="dd-cursor" d="M0 0 L0 22 L6 16 L10 24 L13 22 L9 15 L17 15 Z" />
+      <path class="dd-spark s1" d="M0 -9 C1 -3 3 -1 9 0 C3 1 1 3 0 9 C-1 3 -3 1 -9 0 C-3 -1 -1 -3 0 -9 Z" />
+      <path class="dd-spark s2" d="M0 -7 C.8 -2 2 -.8 7 0 C2 .8 .8 2 0 7 C-.8 2 -2 .8 -7 0 C-2 -.8 -.8 -2 0 -7 Z" />
+    </svg>
+  )}
+</div>
+
+<style>
+  .doodle {
+    position: absolute; z-index: 0; top: 50%; transform: translateY(-50%);
+    width: clamp(130px, 13vw, 196px); opacity: .85; pointer-events: none;
+  }
+  .doodle--right { right: clamp(0.5rem, 3vw, 3.5rem); }
+  .doodle--left  { left:  clamp(0.5rem, 3vw, 3.5rem); }
+  .doodle svg { width: 100%; height: auto; overflow: visible; }
+  .doodle :global(g), .dd-cursor, .dd-spark { transform-box: fill-box; transform-origin: center; }
+  @media (max-width: 960px) { .doodle { display: none; } }
+
+  /* — shapes — */
+  .dd { stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+  .dd-circle { stroke: var(--brand);       animation: dd-bob  6s ease-in-out infinite; }
+  .dd-square { stroke: var(--accent);      animation: dd-spin 20s linear infinite; transform-box: fill-box; transform-origin: center; }
+  .dd-tri    { stroke: var(--brand-light); animation: dd-bob2 5s ease-in-out infinite; }
+  .dd-plus   { stroke: var(--accent);      animation: dd-spinr 16s linear infinite; transform-box: fill-box; transform-origin: center; }
+  .dd-wave   { stroke: var(--brand-light); animation: dd-bob2 4.4s ease-in-out infinite; }
+  .dd-dot    { fill: var(--brand);         animation: dd-bob  3.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+
+  /* — tech — */
+  .win-bg { fill: #fff; stroke: var(--brand); stroke-width: 5; }
+  .win-bar { stroke: var(--border); stroke-width: 2; }
+  .win-dot1 { fill: var(--brand); } .win-dot2 { fill: var(--accent); } .win-dot3 { fill: var(--brand-light); }
+  .win-line { stroke: var(--brand-light); stroke-width: 5; stroke-linecap: round; opacity: .7; }
+  .win-line--short { stroke: var(--accent); }
+  .dd-win { animation: dd-bob 6.5s ease-in-out infinite; }
+  .dd-cursor { fill: var(--brand); animation: dd-cursor 4.2s ease-in-out infinite; }
+  .dd-spark { fill: var(--accent); }
+  .s1 { transform: translate(154px, 66px);  animation: dd-tw 2.6s ease-in-out infinite; }
+  .s2 { transform: translate(40px, 184px);  animation: dd-tw 3.2s ease-in-out infinite .5s; }
+
+  @keyframes dd-bob   { 0%, 100% { transform: translateY(0); }   50% { transform: translateY(-10px); } }
+  @keyframes dd-bob2  { 0%, 100% { transform: translateY(0); }   50% { transform: translateY(8px); } }
+  @keyframes dd-spin  { to { transform: rotate(360deg); } }
+  @keyframes dd-spinr { to { transform: rotate(-360deg); } }
+  @keyframes dd-tw    { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+  @keyframes dd-cursor {
+    0%, 100% { transform: translate(118px, 122px); }
+    45%      { transform: translate(106px, 108px); }
+    55%      { transform: translate(106px, 108px) scale(.9); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .doodle :global(*) { animation: none !important; }
+  }
+</style>

@@ -4,6 +4,7 @@ import Section from '../../../components/Section.astro';
 import Reveal from '../../../components/Reveal.astro';
 import Button from '../../../components/Button.astro';
 import SectionCode from '../../../components/SectionCode.astro';
+import SideDoodle from '../../../components/SideDoodle.astro';
 import { useTranslations } from '../../../i18n/utils';
 import { routeMap } from '../../../i18n/routes';
 import type { GetStaticPaths } from 'astro';
@@ -29,11 +30,14 @@ const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: product
 ---
 <BaseLayout title={t.meta.product(product.name).title} description={t.meta.product(product.name).description} jsonLd={jsonLd} breadcrumb={crumbs}>
   <Section class="product-hero" data-path-node="products">
-    <SectionCode code="C1" />
-    <h1>{product.name}</h1>
-    <p class="lead">{product.tagline}</p>
-    <p>{product.what}</p>
-    <p><Button href={routeMap.contact[lang]}>{t.cta.contact}</Button></p>
+    <SideDoodle variant="tech" />
+    <div class="product-hero__content">
+      <SectionCode code="C1" />
+      <h1>{product.name}</h1>
+      <p class="lead">{product.tagline}</p>
+      <p>{product.what}</p>
+      <p><Button href={routeMap.contact[lang]}>{t.cta.contact}</Button></p>
+    </div>
   </Section>
   <Section alt data-path-node="audience">
     <SectionCode code="C2" />
@@ -52,4 +56,5 @@ const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: product
     position: relative; overflow: hidden;
     background: radial-gradient(90% 130% at 100% -30%, color-mix(in srgb, var(--brand) 10%, transparent), transparent 60%), var(--bg);
   }
+  .product-hero__content { position: relative; z-index: 1; }
 </style>
