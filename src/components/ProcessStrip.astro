@@ -77,16 +77,18 @@ const { steps } = Astro.props;
       width: 16px; height: 16px; border-radius: 50%;
       background: radial-gradient(circle at 50% 50%, #fff 0%, var(--accent-light) 70%);
       box-shadow: 0 0 14px 3px color-mix(in srgb, var(--accent-light) 70%, transparent);
-      transform: translate(-50%, -50%) scale(.6);
+      transform: translate(-50%, -50%);   /* always centred on the line */
       opacity: 0;
     }
 
+    /* Same easing + duration + delay for path and dot, so the dot stays
+       glued to the leading edge of the trail as it draws. */
     .process.is-playing .process__step:not(:last-child)::after {
-      animation: pf-fill var(--seg-dur) ease-out forwards;
+      animation: pf-fill var(--seg-dur) ease-in-out forwards;
       animation-delay: calc(var(--i) * var(--seg-dur));
     }
     .process.is-playing .process__runner::before {
-      animation: pf-runner var(--seg-dur) linear forwards;
+      animation: pf-runner var(--seg-dur) ease-in-out forwards;
       animation-delay: calc(var(--i) * var(--seg-dur));
     }
     .process.is-playing .process__num {
@@ -98,10 +100,10 @@ const { steps } = Astro.props;
   @keyframes pf-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
   @keyframes pf-runner {
-    0%   { left: 0;    opacity: 0; transform: translate(-50%, -50%) scale(.6); }
-    12%  {             opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    88%  {             opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    100% { left: 100%; opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+    0%   { left: 0;    opacity: 0; }
+    10%  {             opacity: 1; }
+    90%  {             opacity: 1; }
+    100% { left: 100%; opacity: 0; }
   }
 
   /* arrival pulse: enlarge + an expanding colour wave that fades out */
