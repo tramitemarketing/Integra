@@ -1,50 +1,108 @@
 ---
 // src/components/CountUp.astro
-// Animates a number from 0 to `value` when it scrolls into view.
-// Renders the final value statically so no-JS / reduced-motion users see it immediately.
+// Slot-machine reels: each digit spins through numbers and clunks onto its final
+// value when scrolled into view. Renders the final value statically so
+// no-JS / reduced-motion users see it immediately.
 interface Props { value: number; suffix?: string; duration?: number; class?: string; }
-const { value, suffix = '', duration = 1400, class: cls = '' } = Astro.props;
+const { value, suffix = '', duration = 1600, class: cls = '' } = Astro.props;
 ---
-<span class={`countup ${cls}`} data-value={value} data-duration={duration}>{value}{suffix}</span>
+<span class={`slot ${cls}`} data-value={value} data-suffix={suffix} data-duration={duration}>{value}{suffix}</span>
 
 <style>
-  .countup {
+  .slot {
+    display: inline-flex;
+    align-items: flex-end;
     font-family: var(--font-display);
     font-size: var(--fs-900);
     font-weight: 600;
     line-height: 1;
-    color: var(--brand); /* fallback where background-clip:text is unsupported */
+    font-variant-numeric: tabular-nums;
+    /* gradient on the raw text node (pre-JS / reduced-motion state) */
+    color: var(--brand);
     background: var(--grad-text);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-variant-numeric: tabular-nums;
+  }
+  /* one window per digit; the reel scrolls behind it */
+  .slot :global(.slot__digit) { display: inline-block; overflow: hidden; height: 1em; }
+  .slot :global(.slot__reel) { display: flex; flex-direction: column; will-change: transform; }
+  /* each cell + the suffix carry the gradient so they stay visible once split out */
+  .slot :global(.slot__reel > b),
+  .slot :global(.slot__suffix) {
+    display: block;
+    height: 1em;
+    line-height: 1;
+    font-weight: inherit;
+    text-align: center;
+    color: var(--brand);
+    background: var(--grad-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 </style>
 
 <script>
-  const els = document.querySelectorAll<HTMLElement>('.countup');
+  const els = document.querySelectorAll<HTMLElement>('.slot');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (els.length && !reduce && 'IntersectionObserver' in window) {
-    const run = (el: HTMLElement) => {
-      const target = parseInt(el.dataset.value || '0', 10);
-      const dur = parseInt(el.dataset.duration || '1400', 10);
-      const suffix = el.textContent?.replace(/[0-9]/g, '') ?? '';
-      const start = performance.now();
-      const tick = (now: number) => {
-        const p = Math.min(1, (now - start) / dur);
-        const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
-        el.textContent = Math.round(eased * target) + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-        else el.textContent = target + suffix;
-      };
-      requestAnimationFrame(tick);
+    const build = (el: HTMLElement) => {
+      const value = el.dataset.value || '0';
+      const suffix = el.dataset.suffix || '';
+      const dur = parseInt(el.dataset.duration || '1600', 10);
+      const digits = value.split('');
+
+      el.textContent = '';
+      const reels: { reel: HTMLElement; finalIndex: number; delay: number; dur: number }[] = [];
+
+      digits.forEach((d, i) => {
+        const target = parseInt(d, 10);
+        const wrap = document.createElement('span');
+        wrap.className = 'slot__digit';
+        const reel = document.createElement('span');
+        reel.className = 'slot__reel';
+
+        // several full 0–9 cycles (more on the right reels), then settle on the target
+        const seq: number[] = [];
+        const loops = 6 + i;
+        for (let c = 0; c < loops; c++) for (let n = 0; n <= 9; n++) seq.push(n);
+        for (let n = 0; n <= target; n++) seq.push(n);
+
+        seq.forEach((n) => {
+          const b = document.createElement('b');
+          b.textContent = String(n);
+          reel.appendChild(b);
+        });
+
+        wrap.appendChild(reel);
+        el.appendChild(wrap);
+        reels.push({ reel, finalIndex: seq.length - 1, delay: i * 120, dur: dur + i * 220 });
+      });
+
+      if (suffix) {
+        const s = document.createElement('span');
+        s.className = 'slot__suffix';
+        s.textContent = suffix;
+        el.appendChild(s);
+      }
+
+      requestAnimationFrame(() => {
+        reels.forEach(({ reel, finalIndex, delay, dur }) => {
+          const first = reel.firstElementChild as HTMLElement;
+          const itemH = first.getBoundingClientRect().height;
+          reel.style.transform = 'translateY(0)';
+          void reel.getBoundingClientRect(); // force reflow before transitioning
+          reel.style.transition = `transform ${dur}ms cubic-bezier(.16, 1, .3, 1) ${delay}ms`;
+          reel.style.transform = `translateY(${-(finalIndex * itemH)}px)`;
+        });
+      });
     };
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
-        if (e.isIntersecting) { run(e.target as HTMLElement); io.unobserve(e.target); }
+        if (e.isIntersecting) { build(e.target as HTMLElement); io.unobserve(e.target); }
       });
     }, { rootMargin: '0px 0px -10% 0px' });
 
