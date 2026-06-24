@@ -78,39 +78,40 @@ const t = useTranslations(lang);
   .clients-strip { margin-top: var(--space-12); }
   .hero-section {
     position: relative;
-    overflow: hidden;            /* keep the drifting auroras inside the section */
+    overflow: hidden;            /* keep the auroras + grid inside the section */
     isolation: isolate;
     padding-block: var(--space-16);
-    /* soft colour wash so the top of the page isn't flat white (stays AA — dark text on near-white) */
-    background: radial-gradient(120% 90% at 50% -10%, var(--brand-tint) 0%, transparent 55%);
+    /* base wash so the top of the page isn't flat white */
+    background: radial-gradient(130% 100% at 50% -10%, var(--brand-tint) 0%, transparent 60%);
   }
-  /* Two soft auroras drifting behind the hero — life + depth, very low opacity
-     and kept to the top corners so dark text stays AA. Authority in restraint. */
-  .hero-section::before, .hero-section::after {
-    content: "";
-    position: absolute; z-index: -1;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: .32;
-    pointer-events: none;
-  }
+  /* Structural grid that slowly pans — gives the bold colour some rigour ("authority"). */
   .hero-section::before {
-    width: 36rem; height: 36rem; top: -14rem; left: -10rem;
-    background: radial-gradient(circle, color-mix(in srgb, var(--brand) 55%, transparent), transparent 70%);
-    animation: heroDriftA 20s ease-in-out infinite;
+    content: ""; position: absolute; inset: -2px; z-index: -1; pointer-events: none;
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--brand) 14%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--brand) 14%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(120% 85% at 50% 0%, #000 35%, transparent 78%);
+            mask-image: radial-gradient(120% 85% at 50% 0%, #000 35%, transparent 78%);
+    animation: gridPan 28s linear infinite;
   }
+  /* Three vivid auroras (blue / cyan / light-blue) drifting behind the content.
+     Pushed to the edges + corners so the dark hero text keeps AA contrast. */
   .hero-section::after {
-    width: 30rem; height: 30rem; top: -10rem; right: -8rem;
-    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 50%, transparent), transparent 70%);
-    animation: heroDriftB 26s ease-in-out infinite;
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(40rem 40rem at 8% -10%, color-mix(in srgb, var(--brand) 65%, transparent), transparent 60%),
+      radial-gradient(34rem 34rem at 96% -6%, color-mix(in srgb, var(--accent) 60%, transparent), transparent 60%),
+      radial-gradient(32rem 32rem at 78% 116%, color-mix(in srgb, var(--brand-light) 55%, transparent), transparent 60%);
+    filter: blur(50px);
+    opacity: .5;
+    animation: auroraDrift 22s ease-in-out infinite;
   }
-  @keyframes heroDriftA {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(4rem, 2.5rem) scale(1.12); }
-  }
-  @keyframes heroDriftB {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(-3.5rem, 3rem) scale(1.06); }
+  @keyframes gridPan { from { background-position: 0 0, 0 0; } to { background-position: 48px 48px, 48px 48px; } }
+  @keyframes auroraDrift {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33%      { transform: translate3d(2.5rem, 1.5rem, 0) scale(1.08); }
+    66%      { transform: translate3d(-2rem, 2.5rem, 0) scale(1.05); }
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-section::before, .hero-section::after { animation: none; }
