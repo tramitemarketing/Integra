@@ -47,10 +47,11 @@ const { variant = 'shapes', side = 'right', background = false, class: cls = '' 
   .doodle :global(g), .dd-cursor, .dd-spark { transform-box: fill-box; transform-origin: center; }
   @media (max-width: 960px) { .doodle:not(.doodle--bg) { display: none; } }
 
-  /* background mode: enlarged shapes filling the section, very faint, behind content */
+  /* background mode: enlarged shapes anchored to the LEFT — only peeking in from
+     that side, very faint, behind content. */
   .doodle--bg {
-    position: absolute; inset: 0; transform: none;
-    width: 100%; height: 100%; opacity: .08;
+    position: absolute; top: 0; bottom: 0; left: 0; right: auto; transform: none;
+    width: min(460px, 42%); height: 100%; opacity: .08;
   }
   .doodle--bg svg { width: 100%; height: 100%; overflow: hidden; }
 

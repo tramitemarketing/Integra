@@ -2,18 +2,21 @@
 // src/components/Section.astro
 // `tone` sets the section's background canvas. `alt` is kept as a shorthand
 // for tone="alt" (back-compat). Tones alternate the page out of flat white.
+import SideDoodle from './SideDoodle.astro';
 type Tone = 'default' | 'alt' | 'tint' | 'accent';
 interface Props { alt?: boolean; tone?: Tone; class?: string; [key: string]: unknown; }
 const { alt = false, tone, class: cls = '', ...rest } = Astro.props;
 const resolved: Tone = tone ?? (alt ? 'alt' : 'default');
 ---
 <section class={`section section--${resolved} ${cls}`} {...rest}>
+  {resolved === 'alt' && <SideDoodle variant="shapes" background side="left" />}
   <div class="container"><slot /></div>
 </section>
 <style>
-  .section { padding-block: var(--space-24); }
-  .section--alt { background: var(--bg-alt); }       /* cool neutral */
+  .section { padding-block: var(--space-24); position: relative; }
+  .section--alt { background: var(--bg-alt); overflow: hidden; }  /* cool neutral; clips the side shapes */
   .section--tint { background: var(--bg-tint); }      /* soft brand blue */
   .section--accent { background: var(--accent-tint); }/* soft cyan */
+  .section--alt > .container { position: relative; z-index: 1; }  /* content above the shapes */
   @media (max-width: 640px) { .section { padding-block: var(--space-16); } }
 </style>
