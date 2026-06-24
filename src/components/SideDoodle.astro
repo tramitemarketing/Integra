@@ -3,12 +3,12 @@
 // Playful, on-brand decorative graphic for a section's side gutter.
 // Purely decorative: aria-hidden, pointer-events:none, desktop-only,
 // and motion is disabled under prefers-reduced-motion.
-interface Props { variant?: 'shapes' | 'tech'; side?: 'left' | 'right'; class?: string }
-const { variant = 'shapes', side = 'right', class: cls = '' } = Astro.props;
+interface Props { variant?: 'shapes' | 'tech'; side?: 'left' | 'right'; background?: boolean; class?: string }
+const { variant = 'shapes', side = 'right', background = false, class: cls = '' } = Astro.props;
 ---
-<div class={`doodle doodle--${side} doodle--${variant} ${cls}`} aria-hidden="true">
+<div class={`doodle doodle--${side} doodle--${variant} ${background ? 'doodle--bg' : ''} ${cls}`} aria-hidden="true">
   {variant === 'shapes' ? (
-    <svg viewBox="0 0 200 240" fill="none">
+    <svg viewBox="0 0 200 240" fill="none" preserveAspectRatio={background ? 'xMidYMid slice' : 'xMidYMid meet'}>
       <circle class="dd dd-circle" cx="58" cy="52" r="24" />
       <rect class="dd dd-square" x="116" y="34" width="52" height="52" rx="14" />
       <path class="dd dd-tri" d="M52 172 L86 172 L69 138 Z" />
@@ -45,7 +45,14 @@ const { variant = 'shapes', side = 'right', class: cls = '' } = Astro.props;
   .doodle--left  { left:  clamp(0.5rem, 3vw, 3.5rem); }
   .doodle svg { width: 100%; height: auto; overflow: visible; }
   .doodle :global(g), .dd-cursor, .dd-spark { transform-box: fill-box; transform-origin: center; }
-  @media (max-width: 960px) { .doodle { display: none; } }
+  @media (max-width: 960px) { .doodle:not(.doodle--bg) { display: none; } }
+
+  /* background mode: enlarged shapes filling the section, very faint, behind content */
+  .doodle--bg {
+    position: absolute; inset: 0; transform: none;
+    width: 100%; height: 100%; opacity: .08;
+  }
+  .doodle--bg svg { width: 100%; height: 100%; overflow: hidden; }
 
   /* — shapes — */
   .dd { stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
