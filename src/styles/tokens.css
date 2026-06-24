@@ -28,8 +28,8 @@
   --grad-text:  linear-gradient(115deg, var(--brand), var(--accent-ink));  /* AA-safe gradient TEXT only */
 
   /* === TYPOGRAPHY === */
-  --font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  --font-display: 'Space Grotesk Variable', var(--font-body);
+  --font-body: 'Questrial', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-display: 'Questrial', var(--font-body);
 
   /* fluid type scale */
   --fs-300: 0.875rem;
