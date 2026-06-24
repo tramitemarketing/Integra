@@ -37,16 +37,49 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   }
   .carousel__track::-webkit-scrollbar { display: none; }
   .carousel__item { flex: 0 0 clamp(260px, 80vw, 340px); scroll-snap-align: start; }
-  .card { position: relative; border-radius: var(--radius); overflow: hidden; min-height: 240px; }
-  .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .card {
+    position: relative; border-radius: var(--radius); overflow: hidden; min-height: 240px;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .card img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    transition: transform 500ms cubic-bezier(.2, .7, .2, 1);
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .card:hover img { transform: scale(1.06); }   /* slow zoom on hover */
+  /* animated gradient border on hover */
+  .card::after {
+    content: ''; position: absolute; inset: 0; z-index: 3; border-radius: inherit; padding: 1.5px;
+    background: conic-gradient(from var(--ba), transparent 0deg, var(--brand) 70deg, var(--accent) 150deg, var(--brand-light) 230deg, transparent 320deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity var(--transition); pointer-events: none;
+  }
+  .card:hover::after { opacity: 1; animation: ba-spin 2.6s linear infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .card, .card img { transition: none; }
+    .card:hover img { transform: none; }
+    .card:hover::after { animation: none; }
+  }
   /* functional scrim — legibility of text over image (not decoration) */
   .card__scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(21,22,28,.78), rgba(21,22,28,0) 60%); }
   .card__body { position: absolute; inset-inline: 0; bottom: 0; padding: var(--space-4); color: #fff; }
   .card__title { color: #fff; font-size: var(--fs-600); }
   .card__desc { font-size: var(--fs-300); opacity: .9; }
   .carousel__nav { display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4); }
-  .carousel__btn { min-width: 44px; min-height: 44px; border: 1px solid var(--border); background: var(--bg); border-radius: var(--radius-sm); cursor: pointer; }
-  .carousel__btn:hover { border-color: var(--brand-light); color: var(--brand-light); }
+  .carousel__btn {
+    min-width: 44px; min-height: 44px;
+    border: 1px solid var(--border); background: var(--bg); border-radius: var(--radius-sm);
+    cursor: pointer; box-shadow: var(--shadow-sm);
+    transition: border-color var(--transition), color var(--transition), background var(--transition), transform var(--transition), box-shadow var(--transition);
+  }
+  .carousel__btn:hover {
+    border-color: var(--brand-light); color: var(--brand-light); background: var(--brand-tint);
+    transform: translateY(-2px); box-shadow: var(--shadow-lg);
+  }
+  .carousel__btn:active { transform: translateY(0); }
 </style>
 
 <script>

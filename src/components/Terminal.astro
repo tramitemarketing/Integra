@@ -29,22 +29,34 @@ const { steps, title = 'workflow', label } = Astro.props;
 
 <style>
   .term {
+    position: relative;
     max-width: 56rem;
     margin-top: var(--space-8);
-    background: #F7F8FA;
+    background:
+      radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--brand) 7%, transparent), transparent 55%),
+      #F7F8FA;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
-    box-shadow: 0 8px 28px rgba(21, 22, 28, 0.06);
+    box-shadow: var(--shadow-lg);
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  /* brand strip across the top edge */
+  .term::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; z-index: 1;
+    background: var(--grad-brand);
   }
   .term__bar {
     display: flex; align-items: center; gap: var(--space-3);
     padding: var(--space-3) var(--space-4);
     border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--brand) 4%, #fff);
   }
   .term__dots { display: inline-flex; gap: 6px; }
-  .term__dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+  .term__dots i { width: 10px; height: 10px; border-radius: 50%; }
+  .term__dots i:nth-child(1) { background: var(--brand); }
+  .term__dots i:nth-child(2) { background: var(--accent); }
+  .term__dots i:nth-child(3) { background: var(--brand-light); }
   .term__title { color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.04em; }
   .term__body {
     display: flex; flex-direction: column; gap: 5px;
