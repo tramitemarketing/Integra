@@ -14,11 +14,25 @@ const t = useTranslations(getLangFromUrl(Astro.url));
 </article>
 <style>
   .tcard {
+    position: relative;
     text-align: center; padding: var(--space-8) var(--space-6);
-    border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--bg-alt) 55%, var(--bg)));
+    box-shadow: var(--shadow-sm);
     transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
   }
-  .tcard:hover { border-color: var(--brand-light); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(21, 22, 28, 0.07); }
+  .tcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  /* animated gradient border on hover */
+  .tcard::before {
+    content: ''; position: absolute; inset: 0; z-index: 2; border-radius: inherit; padding: 1.5px;
+    background: conic-gradient(from var(--ba), transparent 0deg, var(--brand) 70deg, var(--accent) 150deg, var(--brand-light) 230deg, transparent 320deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity var(--transition); pointer-events: none;
+  }
+  .tcard:hover::before { opacity: 1; animation: ba-spin 2.6s linear infinite; }
+  @media (prefers-reduced-motion: reduce) { .tcard:hover::before { animation: none; } }
   .tcard img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-inline: auto; background: var(--bg-alt); }
   .tcard__name { font-size: var(--fs-500); margin-top: var(--space-3); }
   .tcard__role { color: var(--brand); font-weight: 600; font-size: var(--fs-300); }

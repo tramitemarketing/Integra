@@ -51,6 +51,12 @@ a.link:hover { color: var(--brand-light); }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
 
+/* animated gradient border — registered angle so the conic sweep can transition.
+   Used on card hover (see .pcard/.tcard/.ambito). Falls back to a static ring
+   where @property is unsupported. */
+@property --ba { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@keyframes ba-spin { to { --ba: 360deg; } }
+
 /* visually-hidden (for skip link / a11y labels) */
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

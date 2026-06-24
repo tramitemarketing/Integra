@@ -54,6 +54,10 @@
   --space-24: 6rem;
   --space-32: 8rem;
 
+  /* === ELEVATION === */
+  --shadow-sm: 0 1px 2px rgba(21, 22, 28, .04), 0 8px 20px rgba(21, 22, 28, .05);  /* resting depth */
+  --shadow-lg: 0 18px 44px color-mix(in srgb, var(--brand) 16%, transparent);       /* hover — brand-tinted glow */
+
   /* === SHAPE === */
   --radius: 10px;
   --radius-sm: 6px;

@@ -17,10 +17,23 @@ const num = index != null ? String(index).padStart(2, '0') : null;
     position: relative;
     display: flex; flex-direction: column; gap: var(--space-2);
     padding: var(--space-8);
-    border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--bg-alt) 55%, var(--bg)));
+    box-shadow: var(--shadow-sm);
     transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
   }
-  .pcard:hover { border-color: var(--brand-light); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(21, 22, 28, 0.08); }
+  .pcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  /* animated gradient border on hover */
+  .pcard::before {
+    content: ''; position: absolute; inset: 0; z-index: 2; border-radius: inherit; padding: 1.5px;
+    background: conic-gradient(from var(--ba), transparent 0deg, var(--brand) 70deg, var(--accent) 150deg, var(--brand-light) 230deg, transparent 320deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity var(--transition); pointer-events: none;
+  }
+  .pcard:hover::before { opacity: 1; animation: ba-spin 2.6s linear infinite; }
+  @media (prefers-reduced-motion: reduce) { .pcard:hover::before { animation: none; } }
   .pcard__num { font-family: var(--font-display); font-weight: 600; color: var(--brand); font-size: var(--fs-500); }
   .pcard__name { font-size: var(--fs-600); margin-top: var(--space-2); }
   .pcard__tag { color: var(--text-muted); }
