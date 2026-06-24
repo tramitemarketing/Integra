@@ -37,3 +37,20 @@ const productsHref = `${productBase[lang]}/${t.products[0]?.slug ?? ''}`;
   @media (prefers-reduced-motion: reduce) { .nav a::after { transition: none; } }
   @media (max-width: 640px) { .nav { gap: var(--space-4); font-size: var(--fs-300); } .logo img { height: 28px; } }
 </style>
+
+<script>
+  // Clicking the logo while already on that page = smooth-scroll to top instead of reloading.
+  if (!(window as any).__logoScrollTop) {
+    (window as any).__logoScrollTop = true;
+    const norm = (p: string) => p.replace(/\/+$/, '') || '/';
+    document.addEventListener('click', (e) => {
+      const logo = (e.target as Element)?.closest?.('.site-header .logo') as HTMLAnchorElement | null;
+      if (!logo) return;
+      if (norm(new URL(logo.href).pathname) === norm(location.pathname)) {
+        e.preventDefault();
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      }
+    });
+  }
+</script>
