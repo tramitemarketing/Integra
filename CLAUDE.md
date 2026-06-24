@@ -4,7 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Integra — a bilingual (IT/EN) static marketing/showcase site built with **Astro 5**. Output is a fully static `dist/` deployed to Aruba hosting via FTP. The site is built and functional; it currently awaits real client content (placeholders like `[DA SCRIVERE]` / `[NOME_PRODOTTO_x]` are intentional). See `CONSEGNA-CLIENTE.md` for the client-facing list of content still needed.
+Integra — a bilingual (IT/EN) static marketing/showcase site built with **Astro 5**. Output is a fully static `dist/`. The site is built and functional; it currently awaits real client content (placeholders like `[DA SCRIVERE]` / `[NOME_PRODOTTO_x]` are intentional). See `CONSEGNA-CLIENTE.md` for the client-facing list of content still needed.
+
+## Deployment
+
+Two paths coexist — keep this in mind, as the docs and the CI disagree on intent:
+- **Live CI (actual)**: `.github/workflows/deploy.yml` runs on every push to `main`, builds, and deploys `dist/` to **Cloudflare Pages** (project `integra-preview`) via `wrangler-action`. Needs repo secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+- **Planned final host (per README)**: Aruba via FTP — the `dist/` artifact is uploaded manually. The README and placeholder checklist still describe Aruba as the target domain/host.
 
 ## Commands
 

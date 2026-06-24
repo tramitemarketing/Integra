@@ -1,6 +1,6 @@
 ---
 // src/components/Button.astro
-interface Props { href: string; variant?: 'primary' | 'ghost'; class?: string; }
+interface Props { href: string; variant?: 'primary' | 'ghost' | 'cta'; class?: string; }
 const { href, variant = 'primary', class: cls = '' } = Astro.props;
 ---
 <a href={href} class={`btn btn--${variant} ${cls}`}><slot /></a>
@@ -16,4 +16,58 @@ const { href, variant = 'primary', class: cls = '' } = Astro.props;
   .btn--primary:hover { background: var(--brand-light); transform: translateY(-1px); box-shadow: 0 6px 18px color-mix(in srgb, var(--brand) 32%, transparent); }
   .btn--ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
   .btn--ghost:hover { border-color: var(--brand-light); color: var(--brand-light); transform: translateY(-1px); }
+
+  /* === CTA — the bold one. Authority kept in the simple, square shape;
+     life added on the surface: a slow blue→cyan flow, a breathing glow,
+     and a light blade that sweeps across on hover. === */
+  .btn--cta {
+    position: relative;
+    isolation: isolate;            /* contain the sweep/glow to this button */
+    overflow: hidden;
+    color: #fff;
+    /* wider-than-button gradient so its position can travel = "shader" flow */
+    background: linear-gradient(110deg, var(--brand) 0%, var(--accent) 45%, var(--brand-light) 70%, var(--brand) 100%);
+    background-size: 240% 100%;
+    background-position: 0% 50%;
+    box-shadow:
+      0 4px 16px color-mix(in srgb, var(--brand) 30%, transparent),
+      0 1px 0 rgba(255, 255, 255, .25) inset;       /* crisp top edge = keeps it tidy, not mushy */
+    animation: ctaFlow 7s ease-in-out infinite, ctaGlow 4.5s ease-in-out infinite;
+  }
+  /* light blade — sits above the fill, below text feel; brief, premium sheen */
+  .btn--cta::before {
+    content: "";
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .55) 50%, transparent 65%);
+    transform: translateX(-130%);
+    transition: transform 700ms cubic-bezier(.2, .7, .2, 1);
+    pointer-events: none;
+  }
+  .btn--cta > :global(*), .btn--cta { position: relative; }
+  .btn--cta:hover {
+    transform: translateY(-2px);
+    background-position: 100% 50%;
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--brand) 42%, transparent);
+  }
+  .btn--cta:hover::before { transform: translateX(130%); }
+  .btn--cta:active { transform: translateY(0); }
+  .btn--cta:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
+  }
+
+  @keyframes ctaFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  @keyframes ctaGlow {
+    0%, 100% { box-shadow: 0 4px 16px color-mix(in srgb, var(--brand) 26%, transparent), 0 1px 0 rgba(255,255,255,.25) inset; }
+    50%      { box-shadow: 0 8px 26px color-mix(in srgb, var(--accent) 38%, transparent), 0 1px 0 rgba(255,255,255,.25) inset; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn--cta { animation: none; background-position: 25% 50%; }
+    .btn--cta::before { transition: none; }
+    .btn--cta:hover::before { transform: translateX(-130%); }
+  }
 </style>
