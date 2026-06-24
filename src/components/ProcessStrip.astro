@@ -1,14 +1,17 @@
 ---
 // src/components/ProcessStrip.astro
 // The life-cycle as 4 numbered steps connected by a blue path.
+// A glowing dot runs along the path, leaves a bright trail and pulses
+// (an expanding, fading colour wave + enlargement) as it reaches each point.
 interface Step { name: string; desc: string }
 interface Props { steps: Step[] }
 const { steps } = Astro.props;
 ---
 <ol class="process">
   {steps.map((s, i) => (
-    <li class="process__step">
+    <li class="process__step" style={`--i:${i}`}>
       <span class="process__num">{String(i + 1).padStart(2, '0')}</span>
+      {i < steps.length - 1 && <span class="process__runner" aria-hidden="true"></span>}
       <span class="process__name">{s.name}</span>
       <p class="process__desc">{s.desc}</p>
     </li>
@@ -19,25 +22,112 @@ const { steps } = Astro.props;
   .process {
     list-style: none; padding: 0; margin-top: var(--space-8); position: relative;
     display: grid; gap: var(--space-8); grid-template-columns: 1fr;
-  }
-  @media (min-width: 760px) {
-    .process { grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
-    /* Connect each circle to the next: the segment runs from this circle's centre
-       to the next circle's centre (column width + gap), so it never overshoots
-       the first/last number. Sits behind the circles (z-index -1). */
-    .process__step:not(:last-child)::before {
-      content: ''; position: absolute; z-index: -1;
-      top: 22px; left: 22px;                              /* centre of the 44px circle */
-      width: calc(100% + var(--space-6)); height: 2px;    /* span to the next circle's centre */
-      background: var(--grad-brand);
-    }
+    --seg-dur: 0.75s;   /* time the dot spends on each segment */
   }
   .process__step { position: relative; z-index: 1; }
   .process__num {
+    position: relative; z-index: 1;
     display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
     background: var(--brand); color: #fff;
     font-family: var(--font-display); font-weight: 600; font-size: var(--fs-400);
   }
   .process__name { display: block; font-weight: 600; margin-top: var(--space-3); }
   .process__desc { color: var(--text-muted); font-size: var(--fs-300); margin-top: var(--space-2); }
+  .process__runner { display: none; }
+
+  @media (min-width: 760px) {
+    .process { grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+
+    /* Base path: from this circle's centre to the next (column width + gap). Behind everything. */
+    .process__step:not(:last-child)::before {
+      content: ''; position: absolute; z-index: -1;
+      top: 22px; left: 22px;
+      width: calc(100% + var(--space-6)); height: 2px;
+      background: var(--grad-brand);
+    }
+    /* Bright trail the dot leaves behind — grows left→right, then stays "charged". */
+    .process__step:not(:last-child)::after {
+      content: ''; position: absolute; z-index: 0;
+      top: 21px; left: 22px;
+      width: calc(100% + var(--space-6)); height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent-light), var(--brand-light));
+      box-shadow: 0 0 10px color-mix(in srgb, var(--accent-light) 60%, transparent);
+      transform: scaleX(0); transform-origin: left center;
+      opacity: 0;
+    }
+    /* The travelling dot. The wrapper spans one segment; the dot (::before) rides it. */
+    .process__runner {
+      display: block; position: absolute; z-index: 2;
+      top: 22px; left: 22px; height: 0;
+      width: calc(100% + var(--space-6));
+    }
+    .process__runner::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, #fff 0%, var(--accent-light) 70%);
+      box-shadow: 0 0 14px 3px color-mix(in srgb, var(--accent-light) 70%, transparent);
+      transform: translate(-50%, -50%) scale(.6);
+      opacity: 0;
+    }
+
+    /* Armed by JS: dim the base path so the bright trail reads as it's drawn. */
+    .process.is-armed .process__step:not(:last-child)::before { opacity: .3; }
+
+    /* Playing: stagger every layer by segment so it feels like one continuous run. */
+    .process.is-playing .process__step:not(:last-child)::after {
+      opacity: 1;
+      animation: pf-fill var(--seg-dur) ease-out forwards;
+      animation-delay: calc(var(--i) * var(--seg-dur));
+    }
+    .process.is-playing .process__runner::before {
+      animation: pf-runner var(--seg-dur) linear forwards;
+      animation-delay: calc(var(--i) * var(--seg-dur));
+    }
+    .process.is-playing .process__num {
+      animation: pf-pulse .6s ease-out forwards;
+      animation-delay: calc(var(--i) * var(--seg-dur));
+    }
+  }
+
+  @keyframes pf-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  @keyframes pf-runner {
+    0%   { left: 0;    opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+    12%  {             opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    88%  {             opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { left: 100%; opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+  }
+
+  /* arrival pulse: enlarge + an expanding colour wave that fades out */
+  @keyframes pf-pulse {
+    0%   { transform: scale(1);    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-light) 70%, transparent); }
+    35%  { transform: scale(1.22); }
+    100% { transform: scale(1);    box-shadow: 0 0 0 22px color-mix(in srgb, var(--accent-light) 0%, transparent); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .process__runner { display: none; }
+    .process.is-armed .process__step:not(:last-child)::before { opacity: 1; }
+  }
 </style>
+
+<script>
+  const lists = document.querySelectorAll<HTMLElement>('.process');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (lists.length && !reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-playing');
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -15% 0px' });
+
+    lists.forEach((list) => {
+      list.classList.add('is-armed');   // ready state (dim base path); keeps non-JS users on the full line
+      io.observe(list);
+    });
+  }
+</script>
