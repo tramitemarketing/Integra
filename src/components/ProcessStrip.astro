@@ -1,8 +1,8 @@
 ---
 // src/components/ProcessStrip.astro
-// The life-cycle as 4 numbered steps connected by a blue path.
-// A glowing dot runs along the path, leaves a bright trail and pulses
-// (an expanding, fading colour wave + enlargement) as it reaches each point.
+// The life-cycle as numbered steps. A glowing dot runs the path, drawing the
+// connector as a trail it leaves behind, pulsing (expanding/fading colour wave
+// + enlargement) at each point, and dropping a blue "completed" check on arrival.
 interface Step { name: string; desc: string }
 interface Props { steps: Step[] }
 const { steps } = Astro.props;
@@ -11,6 +11,9 @@ const { steps } = Astro.props;
   {steps.map((s, i) => (
     <li class="process__step" style={`--i:${i}`}>
       <span class="process__num">{String(i + 1).padStart(2, '0')}</span>
+      <span class="process__check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.5L19 7.5" /></svg>
+      </span>
       {i < steps.length - 1 && <span class="process__runner" aria-hidden="true"></span>}
       <span class="process__name">{s.name}</span>
       <p class="process__desc">{s.desc}</p>
@@ -35,27 +38,35 @@ const { steps } = Astro.props;
   .process__desc { color: var(--text-muted); font-size: var(--fs-300); margin-top: var(--space-2); }
   .process__runner { display: none; }
 
+  /* blue "completed" badge — pops in when the wave reaches the point */
+  .process__check {
+    position: absolute; z-index: 3; top: -2px; left: 30px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--brand);
+    display: grid; place-items: center;
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--brand) 40%, transparent);
+    transform: scale(0); opacity: 0;   /* hidden until arrival */
+  }
+  .process__check svg { width: 12px; height: 12px; display: block; }
+  .process__check svg path { stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .process.is-playing .process__check {
+    animation: pf-check .45s cubic-bezier(.34, 1.56, .64, 1) forwards;
+    animation-delay: calc(var(--i) * var(--seg-dur) + .12s);
+  }
+
   @media (min-width: 760px) {
     .process { grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
 
-    /* Base path: from this circle's centre to the next (column width + gap). Behind everything. */
-    .process__step:not(:last-child)::before {
-      content: ''; position: absolute; z-index: -1;
-      top: 22px; left: 22px;
-      width: calc(100% + var(--space-6)); height: 2px;
-      background: var(--grad-brand);
-    }
-    /* Bright trail the dot leaves behind — grows left→right, then stays "charged". */
+    /* The path itself = the trail the dot draws. Grows left→right, then stays. */
     .process__step:not(:last-child)::after {
       content: ''; position: absolute; z-index: 0;
-      top: 21px; left: 22px;
+      top: 20px; left: 22px;
       width: calc(100% + var(--space-6)); height: 4px; border-radius: 2px;
-      background: linear-gradient(90deg, var(--accent-light), var(--brand-light));
-      box-shadow: 0 0 10px color-mix(in srgb, var(--accent-light) 60%, transparent);
+      background: var(--grad-brand);
+      box-shadow: 0 0 10px color-mix(in srgb, var(--accent-light) 50%, transparent);
       transform: scaleX(0); transform-origin: left center;
-      opacity: 0;
     }
-    /* The travelling dot. The wrapper spans one segment; the dot (::before) rides it. */
+    /* The travelling dot. Wrapper spans one segment; the dot (::before) rides it. */
     .process__runner {
       display: block; position: absolute; z-index: 2;
       top: 22px; left: 22px; height: 0;
@@ -70,12 +81,7 @@ const { steps } = Astro.props;
       opacity: 0;
     }
 
-    /* Armed by JS: dim the base path so the bright trail reads as it's drawn. */
-    .process.is-armed .process__step:not(:last-child)::before { opacity: .3; }
-
-    /* Playing: stagger every layer by segment so it feels like one continuous run. */
     .process.is-playing .process__step:not(:last-child)::after {
-      opacity: 1;
       animation: pf-fill var(--seg-dur) ease-out forwards;
       animation-delay: calc(var(--i) * var(--seg-dur));
     }
@@ -105,9 +111,16 @@ const { steps } = Astro.props;
     100% { transform: scale(1);    box-shadow: 0 0 0 22px color-mix(in srgb, var(--accent-light) 0%, transparent); }
   }
 
+  @keyframes pf-check {
+    0%   { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* No-motion: show the finished state (full path + all checks), no movement. */
   @media (prefers-reduced-motion: reduce) {
     .process__runner { display: none; }
-    .process.is-armed .process__step:not(:last-child)::before { opacity: 1; }
+    .process__check { transform: scale(1); opacity: 1; }
+    .process__step:not(:last-child)::after { transform: scaleX(1); }
   }
 </style>
 
@@ -125,9 +138,6 @@ const { steps } = Astro.props;
       });
     }, { rootMargin: '0px 0px -15% 0px' });
 
-    lists.forEach((list) => {
-      list.classList.add('is-armed');   // ready state (dim base path); keeps non-JS users on the full line
-      io.observe(list);
-    });
+    lists.forEach((list) => io.observe(list));
   }
 </script>
