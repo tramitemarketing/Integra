@@ -28,7 +28,7 @@ const jsonLd = {
 const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: product.name }];
 ---
 <BaseLayout title={t.meta.product(product.name).title} description={t.meta.product(product.name).description} jsonLd={jsonLd} breadcrumb={crumbs}>
-  <Section data-path-node="products">
+  <Section class="product-hero" data-path-node="products">
     <SectionCode code="C1" />
     <h1>{product.name}</h1>
     <p class="lead">{product.tagline}</p>
@@ -46,4 +46,10 @@ const crumbs = [{ name: t.nav.home, href: routeMap.home[lang] }, { name: product
     <ul>{product.useCases.map((u) => <li>{u}</li>)}</ul>
   </Section>
 </BaseLayout>
-<style>.lead { font-size: var(--fs-500); color: var(--text-muted); margin-block: var(--space-3) var(--space-6); }</style>
+<style>
+  .lead { font-size: var(--fs-500); color: var(--text-muted); margin-block: var(--space-3) var(--space-6); }
+  :global(.product-hero) {
+    position: relative; overflow: hidden;
+    background: radial-gradient(90% 130% at 100% -30%, color-mix(in srgb, var(--brand) 10%, transparent), transparent 60%), var(--bg);
+  }
+</style>

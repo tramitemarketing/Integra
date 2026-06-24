@@ -30,7 +30,10 @@ const t = useTranslations(getLangFromUrl(Astro.url));
 <style>
   .carousel { position: relative; }
   .carousel__track {
-    list-style: none; padding: 0; margin: 0;
+    list-style: none; margin: 0;
+    /* vertical padding gives the hover lift + shadow room: overflow-x:auto also
+       clips the cross axis, which otherwise cut the cards off at the top. */
+    padding: 10px 2px 28px;
     display: flex; gap: var(--space-4);
     overflow-x: auto; scroll-snap-type: x mandatory;
     scrollbar-width: none; -webkit-overflow-scrolling: touch;
